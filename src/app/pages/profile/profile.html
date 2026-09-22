@@ -1,0 +1,519 @@
+<div class="profile-page">
+
+    <div class="profile-container">
+
+        <section class="profile-header">
+
+            <div class="header-content">
+
+                <h1>
+                    Tell us about
+                    <span>yourself.</span>
+                </h1>
+
+                <p>
+                    Your profile helps AI Career Explorer understand
+                    your background, interests, strengths, and goals
+                    so you can discover relevant career possibilities.
+                </p>
+
+            </div>
+
+
+            <div class="profile-progress">
+
+                <div class="progress-label">
+                    <span>Profile completion</span>
+                    <strong>{{ profileCompletion }}%</strong>
+                </div>
+
+                <div class="progress-fill" [style.width.%]="profileCompletion"></div>
+
+                <span class="progress-hint">
+
+                    @if (profileCompletion === 0) {
+                    Start filling your profile to get personalized insights.
+                    }
+
+                    @if (profileCompletion > 0 && profileCompletion < 50) { You're getting started. Keep adding your
+                        details. } @if (profileCompletion>= 50 && profileCompletion < 100) { Great progress! Add a few
+                            more details to complete your profile. } @if (profileCompletion===100) { Your profile is
+                            complete. You're ready to explore careers. } </span>
+
+            </div>
+
+        </section>
+
+        <form class="profile-form" [formGroup]="profileForm" (ngSubmit)="submit()" novalidate>
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">
+                        01
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Education background
+                        </h2>
+
+                        <p>
+                            Tell us where you are in your education journey.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="educationLevel">
+                            Education level
+                        </label>
+
+                        <div class="select-wrapper" [class.input-error]="
+                educationLevel.invalid &&
+                educationLevel.touched
+              ">
+
+                            <select id="educationLevel" formControlName="educationLevel">
+
+                                <option value="" disabled>
+                                    Select your education level
+                                </option>
+
+                                <option value="high_school">
+                                    High School
+                                </option>
+
+                                <option value="higher_secondary">
+                                    Higher Secondary
+                                </option>
+
+                                <option value="undergraduate">
+                                    Undergraduate
+                                </option>
+
+                                <option value="postgraduate">
+                                    Postgraduate
+                                </option>
+
+                                <option value="other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                            <span class="select-arrow">
+                                ⌄
+                            </span>
+
+                        </div>
+
+
+                        @if (
+                        educationLevel.invalid &&
+                        educationLevel.touched
+                        ) {
+
+                        <div class="field-error">
+                            Please select your education level.
+                        </div>
+
+                        }
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="currentClass">
+                            Current class / year
+                        </label>
+
+                        <div class="select-wrapper" [class.input-error]="
+                currentClass.invalid &&
+                currentClass.touched
+              ">
+
+                            <select id="currentClass" formControlName="currentClass">
+
+                                <option value="" disabled>
+                                    Select your current class / year
+                                </option>
+
+                                <option value="class_9">
+                                    Class 9
+                                </option>
+
+                                <option value="class_10">
+                                    Class 10
+                                </option>
+
+                                <option value="class_11">
+                                    Class 11
+                                </option>
+
+                                <option value="class_12">
+                                    Class 12
+                                </option>
+
+                                <option value="1st_year">
+                                    1st Year
+                                </option>
+
+                                <option value="2nd_year">
+                                    2nd Year
+                                </option>
+
+                                <option value="3rd_year">
+                                    3rd Year
+                                </option>
+
+                                <option value="4th_year">
+                                    4th Year
+                                </option>
+
+                                <option value="graduated">
+                                    Graduated
+                                </option>
+
+                            </select>
+
+                            <span class="select-arrow">
+                                ⌄
+                            </span>
+
+                        </div>
+
+
+                        @if (
+                        currentClass.invalid &&
+                        currentClass.touched
+                        ) {
+
+                        <div class="field-error">
+                            Please select your current class or year.
+                        </div>
+
+                        }
+
+                    </div>
+
+                    <div class="form-group form-group-full">
+
+                        <label for="stream">
+                            Stream
+                            <span class="optional">
+                                Optional
+                            </span>
+                        </label>
+
+                        <div class="select-wrapper">
+
+                            <select id="stream" formControlName="stream">
+
+                                <option value="">
+                                    Select your stream
+                                </option>
+
+                                <option value="science">
+                                    Science
+                                </option>
+
+                                <option value="commerce">
+                                    Commerce
+                                </option>
+
+                                <option value="arts_humanities">
+                                    Arts / Humanities
+                                </option>
+
+                                <option value="vocational">
+                                    Vocational
+                                </option>
+
+                                <option value="engineering">
+                                    Engineering
+                                </option>
+
+                                <option value="computer_science">
+                                    Computer Science / IT
+                                </option>
+
+                                <option value="healthcare">
+                                    Healthcare / Medical
+                                </option>
+
+                                <option value="other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                            <span class="select-arrow">
+                                ⌄
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">
+                        02
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Subjects & interests
+                        </h2>
+
+                        <p>
+                            Tell us what you enjoy learning and exploring.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group form-group-full">
+
+                        <label for="subjects">
+                            Subjects you enjoy
+                        </label>
+
+                        <input id="subjects" type="text" formControlName="subjects"
+                            placeholder="e.g. Mathematics, Physics, Computer Science" />
+
+                        @if (
+                        subjects.invalid &&
+                        subjects.touched
+                        ) {
+
+                        <div class="field-error">
+                            Please tell us about your subjects.
+                        </div>
+
+                        }
+
+                        <span class="input-hint">
+                            Separate multiple subjects with commas.
+                        </span>
+
+                    </div>
+
+                    <div class="form-group form-group-full">
+
+                        <label for="interests">
+                            Your interests
+                        </label>
+
+                        <textarea id="interests" formControlName="interests" rows="4"
+                            placeholder="What do you enjoy doing? For example: technology, designing things, helping people, business, writing, solving problems..."></textarea>
+
+                        @if (
+                        interests.invalid &&
+                        interests.touched
+                        ) {
+
+                        <div class="field-error">
+                            Please tell us about your interests.
+                        </div>
+
+                        }
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">
+                        03
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Strengths & skills
+                        </h2>
+
+                        <p>
+                            What are you good at or currently developing?
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group form-group-full">
+
+                        <label for="strengths">
+                            Your strengths
+                        </label>
+
+                        <textarea id="strengths" formControlName="strengths" rows="4"
+                            placeholder="e.g. Problem solving, creativity, communication, leadership, patience..."></textarea>
+
+                        @if (
+                        strengths.invalid &&
+                        strengths.touched
+                        ) {
+
+                        <div class="field-error">
+                            Please tell us about your strengths.
+                        </div>
+
+                        }
+
+                    </div>
+
+                    <div class="form-group form-group-full">
+
+                        <label for="skills">
+                            Your skills
+                        </label>
+
+                        <textarea id="skills" formControlName="skills" rows="4"
+                            placeholder="e.g. Python, Excel, public speaking, graphic design, coding..."></textarea>
+
+                        @if (
+                        skills.invalid &&
+                        skills.touched
+                        ) {
+
+                        <div class="field-error">
+                            Please tell us about your skills.
+                        </div>
+
+                        }
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">
+                        04
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Career goals
+                        </h2>
+
+                        <p>
+                            Tell us what you are hoping to achieve.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group form-group-full">
+
+                    <label for="careerGoals">
+                        What are you looking for?
+                    </label>
+
+                    <textarea id="careerGoals" formControlName="careerGoals" rows="5"
+                        placeholder="Tell us about the kind of career you are considering, what matters to you, or what you would like to achieve..."></textarea>
+
+                    @if (
+                    careerGoals.invalid &&
+                    careerGoals.touched
+                    ) {
+
+                    <div class="field-error">
+                        Please tell us about your career goals.
+                    </div>
+
+                    }
+
+                </div>
+
+            </section>
+
+
+            <div class="form-footer">
+
+                <div class="footer-note">
+
+                    <span class="footer-icon">
+                        ✦
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Your profile powers your recommendations.
+                        </strong>
+
+                        <span>
+                            You can update these details whenever your
+                            interests or goals change.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="save-button" [disabled]="isSubmitting">
+
+                    @if (isSubmitting) {
+
+                    <span class="loading-spinner"></span>
+
+                    <span>
+                        Saving profile
+                    </span>
+
+                    } @else {
+
+                    <span>
+                        Continue
+                    </span>
+
+                    }
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

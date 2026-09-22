@@ -1,0 +1,222 @@
+<div class="login-page">
+
+  <div class="login-container">
+
+    <section class="login-info">
+
+      <div class="login-brand">
+
+        <div class="brand-mark">
+          ✦
+        </div>
+
+        <span>
+          <strong>AI Career Explorer</strong>
+          <span class="brand-accent">
+            Career discovery platform
+          </span>
+        </span>
+
+      </div>
+
+
+      <div class="info-content">
+
+        <span class="info-label">
+          WELCOME BACK
+        </span>
+
+        <h1>
+          Continue your
+          <span>career journey.</span>
+        </h1>
+
+        <p>
+          Sign in to continue exploring careers,
+          understanding your strengths, and discovering
+          possible pathways for your future.
+        </p>
+
+      </div>
+
+    </section>
+
+    <section class="login-form-wrapper">
+
+      <div class="login-form-card">
+
+        <div class="mobile-form-icon">
+          ✦
+        </div>
+
+        <div class="form-header">
+
+          <span class="form-label">
+            SIGN IN
+          </span>
+
+          <h2>
+            Welcome Back
+          </h2>
+
+          <p>
+            Enter your account details to continue.
+          </p>
+
+        </div>
+
+        @if (errorMessage) {
+
+          <div class="server-message error-message">
+            {{ errorMessage }}
+          </div>
+
+        }
+
+        @if (successMessage) {
+
+          <div class="server-message success-message">
+            {{ successMessage }}
+          </div>
+
+        }
+
+        <form
+          [formGroup]="loginForm"
+          (ngSubmit)="submit()"
+          novalidate
+        >
+
+          <div class="form-group">
+
+            <label for="email">
+              Email address
+            </label>
+
+            <div
+              class="input-wrapper"
+              [class.input-error]="email.invalid && email.touched"
+            >
+
+              <input
+                id="email"
+                type="email"
+                formControlName="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+              />
+
+            </div>
+
+
+            @if (email.invalid && email.touched) {
+
+              @if (email.errors?.['required']) {
+
+                <div class="field-error">
+                  Email address is required.
+                </div>
+
+              }
+
+              @if (email.errors?.['email']) {
+
+                <div class="field-error">
+                  Please enter a valid email address.
+                </div>
+
+              }
+
+            }
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="password">
+              Password
+            </label>
+
+            <div
+              class="input-wrapper"
+              [class.input-error]="password.invalid && password.touched"
+            >
+
+              <input
+                id="password"
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+              />
+
+              <button
+                type="button"
+                class="password-toggle"
+                (click)="togglePassword()"
+              >
+                {{ showPassword ? 'Hide' : 'Show' }}
+              </button>
+
+            </div>
+
+
+            @if (password.invalid && password.touched) {
+
+              <div class="field-error">
+                Password is required.
+              </div>
+
+            }
+
+          </div>
+
+          <button
+            type="submit"
+            class="submit-button"
+            [disabled]="isSubmitting"
+          >
+
+            @if (isSubmitting) {
+
+              <span class="loading-spinner"></span>
+
+              <span>
+                Signing in...
+              </span>
+
+            } @else {
+
+              <span>
+                Sign in
+              </span>
+
+            }
+
+          </button>
+
+        </form>
+
+        <div class="register-prompt">
+
+          <span>
+            Don't have an account?
+          </span>
+
+          <a routerLink="/register">
+            Create account
+          </a>
+
+        </div>
+
+        <div class="form-security-note">
+          <span>Your account information is securely protected.</span>
+        </div>
+
+
+      </div>
+    </section>
+
+  </div>
+
+</div>

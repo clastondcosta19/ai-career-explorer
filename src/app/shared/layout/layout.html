@@ -1,0 +1,360 @@
+<div class="app-shell">
+
+    <header class="app-header">
+
+        <div class="header-container">
+
+            <a
+                routerLink="/"
+                class="brand">
+
+                <div class="brand-icon">
+                    AI
+                </div>
+
+                <div class="brand-text">
+
+                    <span class="brand-title">
+                        Career Explorer
+                    </span>
+
+                    <span class="brand-subtitle">
+                        Discover your path
+                    </span>
+
+                </div>
+
+            </a>
+
+            <nav class="main-navigation">
+
+                <a
+                    routerLink="/"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }">
+
+                    Home
+
+                </a>
+
+
+                <a
+                    routerLink="/career-explorer"
+                    routerLinkActive="active">
+
+                    Explore Careers
+
+                </a>
+
+
+                @if (authService.isLoggedIn()) {
+
+                    <a
+                        routerLink="/dashboard"
+                        routerLinkActive="active">
+
+                        Dashboard
+
+                    </a>
+
+
+                    <a
+                        routerLink="/profile"
+                        routerLinkActive="active">
+
+                        My Profile
+
+                    </a>
+
+                }
+
+            </nav>
+
+            <div class="header-actions">
+
+                <div class="theme-control">
+
+                    <button
+                        type="button"
+                        class="theme-toggle"
+                        (click)="toggleThemeMenu()"
+                        [attr.aria-label]="'Theme: ' + getThemeLabel()"
+                        [attr.title]="'Theme: ' + getThemeLabel()">
+
+                        <span class="theme-icon">
+                            {{ getThemeIcon() }}
+                        </span>
+
+                    </button>
+
+
+                    @if (showThemeMenu) {
+
+                        <div class="theme-menu">
+
+
+                            <button
+                                type="button"
+                                [class.active]="themeMode === 'system'"
+                                (click)="setTheme('system')">
+
+                                <span class="theme-option-icon">
+                                    ◐
+                                </span>
+
+                                <span class="theme-option-label">
+                                    System
+                                </span>
+
+                                @if (themeMode === 'system') {
+
+                                    <span class="theme-check">
+                                        ✓
+                                    </span>
+
+                                }
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                [class.active]="themeMode === 'light'"
+                                (click)="setTheme('light')">
+
+                                <span class="theme-option-icon">
+                                    ☀
+                                </span>
+
+                                <span class="theme-option-label">
+                                    Light
+                                </span>
+
+                                @if (themeMode === 'light') {
+
+                                    <span class="theme-check">
+                                        ✓
+                                    </span>
+
+                                }
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                [class.active]="themeMode === 'dark'"
+                                (click)="setTheme('dark')">
+
+                                <span class="theme-option-icon">
+                                    ☾
+                                </span>
+
+                                <span class="theme-option-label">
+                                    Dark
+                                </span>
+
+                                @if (themeMode === 'dark') {
+
+                                    <span class="theme-check">
+                                        ✓
+                                    </span>
+
+                                }
+
+                            </button>
+
+                        </div>
+
+                    }
+
+                </div>
+
+                @if (authService.isLoggedIn()) {
+
+                    <button
+                        type="button"
+                        class="logout-button"
+                        (click)="logout()">
+
+                        <span>
+                            Logout
+                        </span>
+
+
+                    </button>
+
+                }
+
+                @else {
+
+                    <a
+                        routerLink="/login"
+                        class="login-link">
+
+                        Login
+
+                    </a>
+
+
+                    <a
+                        routerLink="/register"
+                        class="register-button">
+
+                        Get Started
+
+                    </a>
+
+                }
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <main class="main-content">
+
+        <router-outlet></router-outlet>
+
+    </main>
+
+
+    <footer class="app-footer">
+
+        <div class="footer-container">
+
+            <div class="footer-brand">
+
+                <div class="footer-logo">
+
+                    <div class="brand-icon">
+                        AI
+                    </div>
+
+
+                    <div>
+
+                        <div class="footer-title">
+                            Career Explorer
+                        </div>
+
+                        <div class="footer-tagline">
+                            Explore. Understand. Grow.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <p>
+                    Helping students explore careers, understand their
+                    strengths and discover meaningful education pathways.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+
+                <div class="footer-column">
+
+                    <h3>
+                        Explore
+                    </h3>
+
+
+                    <a
+                        routerLink="/career-explorer">
+
+                        Careers
+
+                    </a>
+
+
+                    @if (authService.isLoggedIn()) {
+
+                        <a
+                            routerLink="/dashboard">
+
+                            Dashboard
+
+                        </a>
+
+
+                        <a
+                            routerLink="/profile">
+
+                            My Profile
+
+                        </a>
+
+                    }
+
+                </div>
+
+                <div class="footer-column">
+
+                    <h3>
+                        Account
+                    </h3>
+
+
+                    @if (authService.isLoggedIn()) {
+
+                        <button
+                            type="button"
+                            class="footer-logout"
+                            (click)="logout()">
+
+                            Logout
+
+                        </button>
+
+                    }
+
+
+                    @else {
+
+                        <a
+                            routerLink="/login">
+
+                            Login
+
+                        </a>
+
+
+                        <a
+                            routerLink="/register">
+
+                            Register
+
+                        </a>
+
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 AI Career Explorer
+            </span>
+
+            <span>
+                Career guidance for educational exploration
+            </span>
+
+        </div>
+
+    </footer>
+
+</div>

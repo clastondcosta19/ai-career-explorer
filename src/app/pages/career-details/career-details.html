@@ -1,0 +1,674 @@
+<section class="career-page">
+
+  <div class="page-container">
+
+    @if (isLoading && !career) {
+
+    <div class="loading-state">
+
+      <div class="spinner"></div>
+
+      <h2>Loading career</h2>
+
+      <p>
+        We're preparing this career for you.
+      </p>
+
+    </div>
+
+    }
+
+    @else if (errorMessage) {
+
+    <div class="error-state">
+
+      <div class="error-icon">
+        !
+      </div>
+
+      <h2>Career unavailable</h2>
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
+      <button type="button" class="primary-button" (click)="goBack()">
+        Back to careers
+      </button>
+
+    </div>
+
+    }
+
+    @else if (career) {
+
+    <section class="career-hero">
+
+      <div class="hero-left">
+
+        <div class="career-symbol">
+          {{ getInitial() }}
+        </div>
+
+
+        <div class="hero-info">
+
+          <div class="breadcrumb">
+
+            @if (career.domain) {
+            <span>
+              {{ career.domain }}
+            </span>
+            }
+
+            @if (career.careerFamily) {
+
+            <span class="breadcrumb-separator">
+              /
+            </span>
+
+            <span>
+              {{ career.careerFamily }}
+            </span>
+
+            }
+
+          </div>
+
+
+          <h1>
+            {{ career.title }}
+          </h1>
+
+
+          @if (career.role) {
+
+          <p class="hero-role">
+            {{ career.role }}
+          </p>
+
+          }
+
+        </div>
+
+      </div>
+
+
+      <div class="hero-right">
+
+        <button type="button" class="hero-button" (click)="analyzeCareer()">
+          <span>Analyze my fit</span>
+        </button>
+
+      </div>
+
+    </section>
+
+    @if (career.description) {
+
+    <section class="intro">
+
+      <span class="intro-label">
+        ABOUT THIS CAREER
+      </span>
+
+      <p>
+        {{ career.description }}
+      </p>
+
+    </section>
+
+    }
+
+    <div class="main-layout">
+
+      <main>
+
+        @if (getSkills().length > 0) {
+
+        <section class="section">
+
+          <div class="section-title">
+
+            <span class="section-index">
+              01
+            </span>
+
+            <div>
+
+              <span class="small-label">
+                CORE REQUIREMENTS
+              </span>
+
+              <h2>
+                Skills you'll use
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="skills-list">
+
+            @for (
+            skill of getSkills();
+            track skill;
+            let i = $index
+            ) {
+
+            <div class="skill">
+
+              <span class="skill-index">
+                {{ (i + 1).toString().padStart(2, '0') }}
+              </span>
+
+              <span class="skill-text">
+                {{ skill }}
+              </span>
+
+            </div>
+
+            }
+
+          </div>
+
+        </section>
+
+        }
+
+        @if (career.interests) {
+
+        <section class="section">
+
+          <div class="section-title">
+
+            <span class="section-index">
+              02
+            </span>
+
+            <div>
+
+              <span class="small-label">
+                PERSONAL FIT
+              </span>
+
+              <h2>
+                You may enjoy this if...
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="pill-list">
+
+            @for (
+            interest of getInterests();
+            track interest
+            ) {
+
+            <span class="pill">
+              {{ interest }}
+            </span>
+
+            }
+
+          </div>
+
+        </section>
+
+        }
+
+        @if (career.strengths) {
+
+        <section class="section">
+
+          <div class="section-title">
+
+            <span class="section-index">
+              03
+            </span>
+
+            <div>
+
+              <span class="small-label">
+                NATURAL ADVANTAGES
+              </span>
+
+              <h2>
+                Helpful strengths
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="pill-list">
+
+            @for (
+            strength of getStrengths();
+            track strength
+            ) {
+
+            <span class="pill">
+              {{ strength }}
+            </span>
+
+            }
+
+          </div>
+
+        </section>
+
+        }
+
+      </main>
+
+      <aside>
+
+        @if (career.requiredEducation) {
+
+        <section class="side-section">
+
+          <span class="small-label">
+            EDUCATION
+          </span>
+
+          <h3>
+            What can you study?
+          </h3>
+
+          <p>
+            {{ career.requiredEducation }}
+          </p>
+
+        </section>
+
+        }
+
+        @if (career.subjects) {
+
+        <section class="side-section">
+
+          <span class="small-label">
+            SUBJECTS
+          </span>
+
+          <h3>
+            Useful subjects
+          </h3>
+
+
+          <div class="subject-list">
+
+            @for (
+            subject of getSubjects();
+            track subject
+            ) {
+
+            <span>
+              {{ subject }}
+            </span>
+
+            }
+
+          </div>
+
+        </section>
+
+        }
+
+      </aside>
+
+    </div>
+
+    @if (getEducationPrograms().length > 0) {
+
+    <section class="education-pathways-section">
+
+      <div class="education-pathways-header">
+
+        <div>
+
+          <span class="small-label">
+            EDUCATION OPTIONS
+          </span>
+
+          <h2>
+            Ways to prepare for this career
+          </h2>
+
+          <p>
+            Explore education programs that can lead toward
+            this career. Your starting point may depend on
+            your current education level.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      @if (educationLevel === 'higher_secondary' || currentClass === 'class_12') {
+
+      <div class="education-profile-note">
+
+        <div class="education-profile-note-icon">
+          ✓
+        </div>
+
+        <div>
+          <strong>
+            Based on your profile
+          </strong>
+
+          <p>
+            You're currently in Class 12
+            @if (stream) {
+            {{ stream }}
+            }
+            , so undergraduate programs available
+            after 12th are shown first.
+          </p>
+        </div>
+
+      </div>
+
+      }
+
+
+      <div class="education-program-grid">
+
+        @for (
+        program of getEducationPrograms();
+        track program.id
+        ) {
+
+        <article class="education-program-card">
+
+          <div class="education-program-top">
+
+            <span class="education-program-level">
+              {{ program.entryLevel }}
+            </span>
+
+            <span class="education-program-duration">
+              {{ program.typicalDuration }}
+            </span>
+
+          </div>
+
+
+          <h3>
+            {{ program.name }}
+          </h3>
+
+          @if (educationLevel && getPreferredEntryLevel()) {
+
+          <span class="education-program-match"
+            [class.strong-match]="getProgramMatchLabel(program) === 'Strong pathway match'"
+            [class.good-match]="getProgramMatchLabel(program) === 'Good pathway match'"
+            [class.alternative-match]="getProgramMatchLabel(program) === 'Alternative pathway'">
+            {{ getProgramMatchLabel(program) }}
+          </span>
+
+          @if (getProgramMatchLabel(program) === 'Strong pathway match') {
+
+          <p class="education-match-reason">
+            This pathway aligns closely with your current education level,
+            stream and subjects.
+          </p>
+
+          }
+
+          @else if (getProgramMatchLabel(program) === 'Good pathway match') {
+
+          <p class="education-match-reason">
+            This pathway aligns with several parts of your current academic profile.
+          </p>
+
+          }
+
+          }
+
+
+          @if (program.field) {
+
+          <p class="education-program-field">
+            {{ program.field }}
+          </p>
+
+          }
+
+
+          @if (program.description) {
+
+          <p class="education-program-description">
+            {{ program.description }}
+          </p>
+
+          }
+
+
+          @if (program.subjects) {
+
+          <div class="education-program-subjects">
+
+            <span class="education-detail-label">
+              Relevant subjects
+            </span>
+
+            <p>
+              {{ program.subjects }}
+            </p>
+
+          </div>
+
+          }
+
+
+          @if (program.eligibility) {
+
+          <div class="education-program-eligibility">
+
+            <span class="education-detail-label">
+              Eligibility
+            </span>
+
+            <p>
+              {{ program.eligibility }}
+            </p>
+
+          </div>
+
+          }
+
+        </article>
+
+        }
+
+      </div>
+
+    </section>
+
+    }
+
+    @if (career.careerPaths) {
+
+    <section class="pathway-section">
+
+      <div class="pathway-header">
+
+        <div class="pathway-heading">
+
+          <span class="small-label">
+            CAREER JOURNEY
+          </span>
+
+          <h2>
+            Possible ways forward
+          </h2>
+
+          <p>
+            Explore the different stages you may move through
+            on the way to this career.
+          </p>
+
+        </div>
+
+
+        <div class="pathway-route-label">
+
+          <span>
+            YOUR ROUTE
+          </span>
+
+          <strong>
+            Explore <b>→</b> Learn <b>→</b> Grow
+          </strong>
+
+        </div>
+
+      </div>
+
+      <div class="pathway-track">
+
+        @for (
+        path of career.careerPaths.split(/(?:→|->|\n|,)+/);
+        track path;
+        let i = $index
+        ) {
+
+        @if (path.trim()) {
+
+        <div class="path-stage">
+
+          <div class="stage-top">
+
+            <div class="stage-number">
+              {{ i + 1 }}
+            </div>
+
+
+            @if (!$last) {
+
+            <div class="stage-connector"></div>
+
+            }
+
+          </div>
+
+          <div class="stage-body">
+
+            <span class="stage-label">
+              STEP {{ (i + 1).toString().padStart(2, '0') }}
+            </span>
+
+
+            <h3>
+              {{ path.trim() }}
+            </h3>
+
+
+            @if (i === 0) {
+
+            <p>
+              Start building the foundation
+              for your career journey.
+            </p>
+
+            }
+
+            @else if (i === 1) {
+
+            <p>
+              Develop the education and skills
+              needed for the next stage.
+            </p>
+
+            }
+
+            @else {
+
+            <p>
+              Continue developing your expertise
+              and move toward your career.
+            </p>
+
+            }
+
+          </div>
+
+        </div>
+
+        }
+
+        }
+
+      </div>
+
+
+      <div class="pathway-note">
+
+        <div class="note-icon">
+          ↗
+        </div>
+
+        <div>
+
+          <strong>
+            Your path doesn't have to be identical.
+          </strong>
+
+          <p>
+            The right route can depend on your education,
+            interests, strengths and goals.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    }
+
+    <section class="final-cta">
+
+      <div class="final-cta-content">
+
+        <span class="small-label">
+          NEXT STEP
+        </span>
+
+        <h2>
+          Find out how this career fits you.
+        </h2>
+
+        <p>
+          We'll compare your profile with the skills,
+          interests, subjects and education associated
+          with this career.
+        </p>
+
+      </div>
+
+
+      <button type="button" class="cta-button" (click)="analyzeCareer()">
+
+        <span>
+          Analyze my fit
+        </span>
+
+      </button>
+
+    </section>
+
+    }
+
+  </div>
+
+</section>

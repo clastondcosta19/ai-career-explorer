@@ -1,0 +1,640 @@
+<div class="dashboard-page">
+
+    <section class="dashboard-hero">
+
+        <div class="hero-content">
+
+            <span class="hero-label">
+                STUDENT DASHBOARD
+            </span>
+
+            <h1>
+                Welcome Back, {{ userName }}
+            </h1>
+
+            <p>
+                Continue exploring careers, understand your strengths,
+                and discover education pathways that fit your goals.
+            </p>
+
+        </div>
+
+    </section>
+
+    @if (isLoading) {
+
+    <section class="dashboard-loading">
+
+        <div class="loading-spinner"></div>
+
+        <p>
+            Loading your dashboard...
+        </p>
+
+    </section>
+
+    }
+
+    @if (!isLoading && errorMessage) {
+
+    <section class="dashboard-error">
+
+        <h2>
+            Something went wrong
+        </h2>
+
+        <p>
+            {{ errorMessage }}
+        </p>
+
+        <button type="button" (click)="goToProfile()">
+
+            Open My Profile
+
+        </button>
+
+    </section>
+
+    }
+
+    @if (!isLoading && !errorMessage) {
+
+    <section class="dashboard-content">
+
+        <div class="profile-overview card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        YOUR PROFILE
+                    </span>
+
+                    <h2>
+                        Your career starting point
+                    </h2>
+
+                </div>
+
+                <button type="button" class="outline-button" (click)="goToProfile()">
+
+                    Edit Profile
+
+                </button>
+
+            </div>
+
+
+            <div class="profile-grid">
+
+                <div class="profile-item">
+
+                    <span class="item-label">
+                        Education
+                    </span>
+
+                    <strong>
+                        {{ getEducationLabel() }}
+                    </strong>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <span class="item-label">
+                        Class
+                    </span>
+
+                    <strong>
+                        {{ profile?.currentClass || 'Not provided' }}
+                    </strong>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <span class="item-label">
+                        Stream
+                    </span>
+
+                    <strong>
+                        {{ profile?.stream || 'Not provided' }}
+                    </strong>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <span class="item-label">
+                        Career Goal
+                    </span>
+
+                    <strong>
+                        {{ profile?.careerGoals || 'Not provided' }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="completion-card card">
+
+            <div class="completion-header">
+
+                <div>
+
+                    <span class="section-label">
+                        PROFILE COMPLETION
+                    </span>
+
+                    <h2>
+                        Build a stronger career profile
+                    </h2>
+
+                </div>
+
+                <div class="completion-percentage">
+                    {{ getProfileCompletion() }}%
+                </div>
+
+            </div>
+
+
+            <div class="progress-track">
+
+                <div class="progress-fill" [style.width.%]="getProfileCompletion()">
+                </div>
+
+            </div>
+
+
+            <p>
+                A more complete profile helps Career Explorer provide
+                more relevant career and education guidance.
+            </p>
+
+
+            @if (getProfileCompletion() < 100) { <button type="button" class="primary-button" (click)="goToProfile()">
+
+                Complete My Profile
+
+                </button>
+
+                } @else {
+
+                <span class="completed-message">
+                    Your profile is complete.
+                </span>
+
+                }
+
+        </div>
+
+
+        <section class="exploration-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        EXPLORE
+                    </span>
+
+                    <h2>
+                        Continue your career journey
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="action-grid">
+
+                <a routerLink="/career-explorer" class="action-card">
+
+                    <div class="action-icon">
+                        🔎
+                    </div>
+
+                    <h3>
+                        Explore Careers
+                    </h3>
+
+                    <p>
+                        Discover careers based on your interests,
+                        subjects, strengths, and goals.
+                    </p>
+
+                    <span class="action-link">
+                        Explore careers
+                    </span>
+
+                </a>
+
+
+                <a href="#" class="action-card" (click)="$event.preventDefault(); goToCareerPathway()">
+
+                    <div class="action-icon">
+                        🧭
+                    </div>
+
+                    <h3>
+                        Career Pathways
+                    </h3>
+
+                    <p>
+                        Understand education routes and possible
+                        pathways toward your career interests.
+                    </p>
+
+                    <span class="action-link">
+                        View pathways
+                    </span>
+
+                </a>
+
+                <!-- My Profile -->
+
+                <a routerLink="/profile" class="action-card">
+
+                    <div class="action-icon">
+                        👤
+                    </div>
+
+                    <h3>
+                        My Profile
+                    </h3>
+
+                    <p>
+                        Review your subjects, interests, strengths,
+                        skills, and career goals.
+                    </p>
+
+                    <span class="action-link">
+                        View profile
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+        <section class="roadmap-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        YOUR ROADMAP
+                    </span>
+
+                    <h2>
+                        Continue building toward your career
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            @if (roadmapLoading) {
+
+            <div class="roadmap-loading card">
+
+                <div class="loading-spinner"></div>
+
+                <p>
+                    Loading your roadmap...
+                </p>
+
+            </div>
+
+            } @else if (roadmaps.length > 0) {
+
+            <div class="roadmap-grid">
+
+                @for (roadmap of roadmaps; track roadmap.id) {
+
+                <div class="roadmap-card card">
+
+                    <div class="roadmap-card-header">
+
+                        <div>
+
+                            <span class="section-label">
+                                CAREER ROADMAP
+                            </span>
+
+                            <h3>
+                                {{ roadmap.career.title }}
+                            </h3>
+
+                        </div>
+
+                        <span class="roadmap-status">
+                            {{ roadmap.status }}
+                        </span>
+
+                    </div>
+
+
+                    <p class="roadmap-goal">
+                        Goal: {{ roadmap.goal }}
+                    </p>
+
+
+                    @if (roadmap.roadmapData) {
+
+                    <div class="roadmap-progress">
+
+                        <div class="roadmap-progress-header">
+
+                            <span>
+                                Progress
+                            </span>
+
+                            <strong>
+                                {{ getRoadmapProgress(roadmap) }}%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress-track">
+
+                            <div class="progress-fill" [style.width.%]="getRoadmapProgress(roadmap)">
+                            </div>
+
+                        </div>
+
+
+                        <span class="roadmap-progress-caption">
+
+                            {{ getCompletedRoadmapSteps(roadmap) }}
+
+                            of
+
+                            {{ getRoadmapSteps(roadmap).length }}
+
+                            steps completed
+
+                        </span>
+
+                    </div>
+
+                    }
+
+
+                    <a [routerLink]="[
+                                        '/roadmap',
+                                        roadmap.career.id
+                                    ]" class="roadmap-link">
+
+                        <span>
+                            Continue roadmap
+                        </span>
+
+                        <span>
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+                }
+
+            </div>
+
+            } @else {
+
+            <div class="roadmap-empty card">
+
+                <div>
+
+                    <span class="section-label">
+                        READY WHEN YOU ARE
+                    </span>
+
+                    <h3>
+                        No career roadmap yet
+                    </h3>
+
+                    <p>
+                        Explore a career, analyze your fit, and create
+                        a personalized roadmap from your identified
+                        skill gaps.
+                    </p>
+
+                </div>
+
+
+                <button type="button" class="primary-button" (click)="goToCareerExplorer()">
+
+                    Explore Careers
+
+                </button>
+
+            </div>
+
+            }
+
+        </section>
+
+        <section class="profile-signals">
+
+            <div class="signal-card card">
+
+                <span class="section-label">
+                    INTERESTS
+                </span>
+
+                <h2>
+                    What interests you
+                </h2>
+
+
+                @if (getInterests().length > 0) {
+
+                <div class="tag-list">
+
+                    @for (
+                    interest of getInterests();
+                    track interest
+                    ) {
+
+                    <span class="tag">
+                        {{ interest }}
+                    </span>
+
+                    }
+
+                </div>
+
+                } @else {
+
+                <p class="empty-message">
+                    Add your interests to your profile.
+                </p>
+
+                }
+
+            </div>
+
+            <div class="signal-card card">
+
+                <span class="section-label">
+                    SKILLS
+                </span>
+
+                <h2>
+                    Your current skills
+                </h2>
+
+
+                @if (getSkills().length > 0) {
+
+                <div class="tag-list">
+
+                    @for (
+                    skill of getSkills();
+                    track skill
+                    ) {
+
+                    <span class="tag">
+                        {{ skill }}
+                    </span>
+
+                    }
+
+                </div>
+
+                } @else {
+
+                <p class="empty-message">
+                    Add your skills to your profile.
+                </p>
+
+                }
+
+            </div>
+
+        </section>
+
+        <section class="next-steps card">
+
+            <span class="section-label">
+                NEXT STEPS
+            </span>
+
+            <h2>
+                A simple way to continue
+            </h2>
+
+
+            <div class="steps-list">
+
+                <div class="step">
+
+                    <span class="step-number">
+                        1
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Complete your profile
+                        </h3>
+
+                        <p>
+                            Add your interests, strengths, skills,
+                            and career goals.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="step">
+
+                    <span class="step-number">
+                        2
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Explore careers
+                        </h3>
+
+                        <p>
+                            Compare different career options and
+                            understand what they involve.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="step">
+
+                    <span class="step-number">
+                        3
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Analyze your fit
+                        </h3>
+
+                        <p>
+                            Compare your profile with career
+                            requirements and identify skill gaps.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="step">
+
+                    <span class="step-number">
+                        4
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Get AI guidance
+                        </h3>
+
+                        <p>
+                            Ask personalized questions about your
+                            career exploration journey.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </section>
+
+    }
+
+</div>

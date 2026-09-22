@@ -1,0 +1,419 @@
+<div class="roadmap-page">
+
+  @if (isLoading) {
+
+  <div class="state-card">
+    <div class="loading-spinner"></div>
+
+    <h2>
+      Building your roadmap...
+    </h2>
+
+    <p>
+      Loading your personalized career roadmap.
+    </p>
+  </div>
+
+  } @else if (errorMessage) {
+
+  <div class="state-card error-state">
+
+    <div class="state-icon">
+      !
+    </div>
+
+    <h2>
+      Roadmap unavailable
+    </h2>
+
+    <p>
+      {{ errorMessage }}
+    </p>
+
+    <div class="state-actions">
+
+      <button type="button" class="primary-button" (click)="goToExplorer()">
+        Explore Careers
+      </button>
+
+    </div>
+
+  </div>
+
+  } @else if (roadmap && roadmapData) {
+
+  <header class="roadmap-header">
+
+
+    <div class="header-content">
+
+      <span class="eyebrow">
+        YOUR CAREER ROADMAP
+      </span>
+
+      <h1>
+        {{ roadmap.career.title }}
+      </h1>
+
+      <p class="header-description">
+        A structured starting plan based on your current profile
+        and the skills identified for this career.
+      </p>
+
+    </div>
+
+  </header>
+
+  <main class="roadmap-content">
+
+    <section class="overview-grid">
+
+      <div class="overview-card">
+
+        <span class="overview-label">
+          CURRENT STAGE
+        </span>
+
+        <strong>
+          {{ roadmap.currentStage }}
+        </strong>
+
+      </div>
+
+
+      <div class="overview-card">
+
+        <span class="overview-label">
+          GOAL
+        </span>
+
+        <strong>
+          {{ roadmap.goal }}
+        </strong>
+
+      </div>
+
+
+      <div class="overview-card">
+
+        <span class="overview-label">
+          TARGET
+        </span>
+
+        <strong>
+          {{ roadmap.targetStage }}
+        </strong>
+
+      </div>
+
+
+      <div class="overview-card progress-card">
+
+        <div class="progress-header">
+
+          <span class="overview-label">
+            PROGRESS
+          </span>
+
+          <strong>
+            {{ getProgressPercentage() }}%
+          </strong>
+
+        </div>
+
+
+        <div class="progress-track">
+
+          <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+
+        </div>
+
+
+        <span class="progress-caption">
+
+          {{ getCompletedSteps() }}
+          of
+          {{ getSteps().length }}
+          steps completed
+
+        </span>
+
+      </div>
+
+    </section>
+
+    <section class="roadmap-section">
+
+      <div class="section-heading">
+
+        <span class="section-number">
+          01
+        </span>
+
+        <div>
+
+          <span class="section-label">
+            SKILLS TO DEVELOP
+          </span>
+
+          <h2>
+            Your roadmap
+          </h2>
+
+          <p>
+            Work through the skills identified as gaps for
+            your selected career.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="roadmap-list">
+
+        @for (
+        step of getSteps();
+        track step.step
+        ) {
+
+        <article class="roadmap-step" [class.step-completed]="step.status === 'COMPLETED'">
+
+          <div class="step-number">
+
+            <span>
+
+              @if (step.status === 'COMPLETED') {
+              ✓
+              } @else {
+              {{ step.step }}
+              }
+
+            </span>
+
+          </div>
+
+
+          <div class="step-content">
+
+            <div class="step-top">
+
+              <div>
+
+                <span class="step-label">
+                  STEP {{ step.step }}
+                </span>
+
+                <h3>
+                  {{ step.skill }}
+                </h3>
+
+              </div>
+
+
+              <span class="step-status" [class.completed]="step.status === 'COMPLETED'">
+
+                {{
+                step.status === 'COMPLETED'
+                ? 'Completed'
+                : 'Not started'
+                }}
+
+              </span>
+
+            </div>
+
+            @if (step.description) {
+
+            <p class="step-description">
+              {{ step.description }}
+            </p>
+
+            }
+
+            <p class="step-action">
+              {{ step.action }}
+            </p>
+
+            <div class="step-action-row">
+
+              <button type="button" class="step-complete-button" [class.completed-button]="step.status === 'COMPLETED'"
+                [disabled]="isStepUpdating(step.step)" (click)="toggleStepStatus(step)">
+
+                @if (isStepUpdating(step.step)) {
+
+                <span class="button-spinner"></span>
+
+                <span>
+                  Saving...
+                </span>
+
+                } @else if (step.status === 'COMPLETED') {
+
+                <span>
+                  Completed
+                </span>
+
+                } @else {
+
+                <span>
+                  Mark as completed
+                </span>
+
+                }
+
+              </button>
+
+            </div>
+
+            <div class="step-footer">
+
+              <span>
+                Skill development
+              </span>
+
+              <span>
+                {{ roadmap.career.title }}
+              </span>
+
+            </div>
+
+          </div>
+
+        </article>
+
+        }
+
+      </div>
+
+    </section>
+
+
+    <section class="skills-summary">
+
+      <div>
+
+        <span class="section-label">
+          SKILL GAP SUMMARY
+        </span>
+
+        <h2>
+          {{ roadmapData.totalMissingSkills }}
+          skills identified
+        </h2>
+
+        <p>
+          These skills are currently identified as missing
+          for your selected career based on the platform's
+          career and skill data.
+        </p>
+
+      </div>
+
+
+      <div class="skill-tags">
+
+        @for (
+        skill of roadmapData.missingSkills;
+        track skill
+        ) {
+
+        <span class="skill-tag">
+          {{ skill }}
+        </span>
+
+        }
+
+      </div>
+
+    </section>
+
+    <section class="next-section">
+
+      <div class="section-heading">
+
+        <span class="section-number">
+          02
+        </span>
+
+        <div>
+
+          <span class="section-label">
+            NEXT
+          </span>
+
+          <h2>
+            Keep building
+          </h2>
+
+          <p>
+            Use your roadmap progress together with your
+            career analysis to guide your next steps.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="next-card">
+
+        <div class="next-icon">
+          ▶
+        </div>
+
+
+        <div>
+
+          <h3>
+            Continue exploring {{ roadmap.career.title }}
+          </h3>
+
+          <p>
+            Review your career analysis and use the AI
+            guidance section for personalized explanations
+            and next-step suggestions.
+          </p>
+
+        </div>
+
+
+
+        <button type="button" class="primary-button" (click)="goBack()">
+          {{ cameFromCareerPathway
+          ? 'View Career Pathway'
+          : 'View Career Analysis' }}
+        </button>
+
+
+      </div>
+
+    </section>
+
+  </main>
+
+  } @else {
+
+  <div class="state-card">
+
+    <div class="state-icon">
+      ?
+    </div>
+
+    <h2>
+      No roadmap available
+    </h2>
+
+    <p>
+      Generate a roadmap for a career before viewing it here.
+    </p>
+
+    <button type="button" class="primary-button" (click)="goBack()">
+      Back
+    </button>
+
+  </div>
+
+  }
+
+</div>

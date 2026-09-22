@@ -1,0 +1,605 @@
+<section class="analysis-page">
+
+    <div class="analysis-container">
+
+        @if (isLoading && !career) {
+
+        <div class="state-card">
+
+            <div class="spinner"></div>
+
+            <h2>Analyzing your fit</h2>
+
+            <p>
+                We're comparing your profile with this career.
+            </p>
+
+        </div>
+
+        }
+
+        @else if (errorMessage) {
+
+        <div class="state-card error-card">
+
+            <div class="error-icon">
+                !
+            </div>
+
+            <h2>Analysis unavailable</h2>
+
+            <p>
+                {{ errorMessage }}
+            </p>
+
+            <button type="button" class="primary-button" (click)="goToExplorer()">
+                Back to careers
+            </button>
+
+        </div>
+
+        }
+
+
+        @else if (career && match && skillGap) {
+
+        <section class="analysis-header">
+
+            <div class="header-copy">
+
+                <span class="eyebrow">
+                    CAREER FIT ANALYSIS
+                </span>
+
+                <h1>
+                    How well does
+                    <span>{{ career.title }}</span>
+                    fit you?
+                </h1>
+
+                <p>
+                    We've compared your current profile with the
+                    skills, interests, subjects and education associated
+                    with this career.
+                </p>
+
+            </div>
+
+            <div class="career-badge">
+                {{ getInitial() }}
+            </div>
+
+        </section>
+
+        <section class="score-card">
+
+            <div class="score-main">
+
+                <span class="score-label">
+                    COMPATIBILITY
+                </span>
+
+                <div class="score-value">
+                    {{ getScore() }}<span>%</span>
+                </div>
+
+                <p>
+                    Based on your current profile
+                </p>
+
+            </div>
+
+
+            <div class="score-divider"></div>
+
+
+            <div class="confidence-block">
+
+                <span class="score-label">
+                    CONFIDENCE
+                </span>
+
+                <strong>
+                    {{ getConfidence() }}
+                </strong>
+
+                <p>
+                    How much information we currently have
+                    to support this analysis.
+                </p>
+
+            </div>
+
+
+            <div class="score-visual">
+
+                <div class="score-ring" [style.--score]="getScore()">
+
+                    <div class="score-ring-inner">
+                        {{ getScore() }}%
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        YOUR PROFILE
+                    </span>
+
+                    <h2>
+                        What is contributing to your match?
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            @if (getMatchedFactors().length > 0) {
+
+            <div class="factor-grid">
+
+                @for (
+                factor of getMatchedFactors();
+                track factor
+                ) {
+
+                <div class="factor-card">
+
+                    <div class="factor-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            {{ factor }}
+                        </strong>
+
+                        <p>
+                            Your profile shows alignment
+                            in this area.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                }
+
+            </div>
+
+            }
+
+            @else {
+
+            <div class="empty-message">
+
+                <span>○</span>
+
+                <p>
+                    We don't have enough matching information
+                    in this area yet.
+                </p>
+
+            </div>
+
+            }
+
+        </section>
+
+        <section class="section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        SKILL ANALYSIS
+                    </span>
+
+                    <h2>
+                        Your current skill fit
+                    </h2>
+
+                    <p>
+                        Here's how your existing skills compare with
+                        the skills associated with {{ career.title }}.
+                    </p>
+
+                </div>
+
+                <div class="skill-percentage">
+
+                    <strong>
+                        {{ getSkillPercentage() }}%
+                    </strong>
+
+                    <span>
+                        skill match
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="progress-track">
+
+                <div
+                    class="progress-fill"
+                    [style.width.%]="getSkillPercentage()"
+                >
+                </div>
+
+            </div>
+
+
+            <div class="skill-columns">
+
+                <div class="skill-column">
+
+                    <div class="column-header">
+
+                        <div class="column-icon matched">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Skills you already have
+                            </strong>
+
+                            <span>
+                                {{ getMatchedSkills().length }}
+                                matched
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    @if (getMatchedSkills().length > 0) {
+
+                    <div class="skill-list">
+
+                        @for (
+                        skill of getMatchedSkills();
+                        track skill
+                        ) {
+
+                        <div class="skill-row">
+
+                            <span class="check">
+                                ✓
+                            </span>
+
+                            <span>
+                                {{ skill }}
+                            </span>
+
+                        </div>
+
+                        }
+
+                    </div>
+
+                    }
+
+                    @else {
+
+                    <div class="no-skills">
+                        No matched skills yet.
+                    </div>
+
+                    }
+
+                </div>
+
+                <div class="skill-column">
+
+                    <div class="column-header">
+
+                        <div class="column-icon missing">
+                            +
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Skills to develop
+                            </strong>
+
+                            <span>
+                                {{ getMissingSkills().length }}
+                                to explore
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    @if (getMissingSkills().length > 0) {
+
+                    <div class="skill-development-list">
+
+                        @for (
+                        skill of getMissingSkills();
+                        track skill
+                        ) {
+
+                        <article class="skill-development-card">
+
+                            <div class="skill-development-header">
+
+                                <div class="skill-development-marker">
+                                    +
+                                </div>
+
+                                <div class="skill-development-title">
+
+                                    <strong>
+                                        {{ skill }}
+                                    </strong>
+
+                                    @if (skillGap) {
+
+                                    @for (
+                                    detail of skillGap.missingSkillDetails;
+                                    track detail.id
+                                    ) {
+
+                                    @if (detail.name === skill) {
+
+                                    @if (detail.category) {
+
+                                    <span class="skill-category">
+                                        {{ detail.category }}
+                                    </span>
+
+                                    }
+
+                                    }
+
+                                    }
+
+                                    }
+
+                                </div>
+
+                            </div>
+
+
+                            @if (skillGap) {
+
+                            @for (
+                            detail of skillGap.missingSkillDetails;
+                            track detail.id
+                            ) {
+
+                            @if (detail.name === skill) {
+
+                            @if (detail.description) {
+
+                            <div class="skill-development-description">
+
+                                <span class="skill-description-label">
+                                    WHY IT MATTERS
+                                </span>
+
+                                <p>
+                                    {{ detail.description }}
+                                </p>
+
+                            </div>
+
+                            }
+
+                            }
+
+                            }
+
+                            }
+
+                        </article>
+
+                        }
+
+                    </div>
+
+
+                    <div class="skill-development-note">
+
+                        <span class="skill-development-icon">
+                            →
+                        </span>
+
+                        <p>
+                            These are areas you can explore and develop
+                            gradually. They are not barriers to entering
+                            the career.
+                        </p>
+
+                    </div>
+
+                    }
+
+                    @else {
+
+                    <div class="no-skills">
+                        No missing skills identified.
+                    </div>
+
+                    }
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="education-card">
+
+            <div class="education-copy">
+
+                <span class="section-label">
+                    EDUCATION FIT
+                </span>
+
+                <h2>
+                    How does the education path fit you?
+                </h2>
+
+                <p>
+                    Your current education profile is also considered
+                    when analyzing this career.
+                </p>
+
+                @if (getEducationExplanation()) {
+
+                <div class="education-explanation">
+
+                    <span class="education-explanation-label">
+                        WHY THIS SCORE?
+                    </span>
+
+                    <p>
+                        {{ getEducationExplanation() }}
+                    </p>
+
+                </div>
+
+                }
+
+            </div>
+
+
+            <div class="education-score">
+
+                <strong>
+                    {{ getEducationScore() }}%
+                </strong>
+
+                <span>
+                    education fit
+                </span>
+
+            </div>
+
+        </section>
+
+        <section class="ai-cta">
+
+            <div class="ai-symbol">
+                ✦
+            </div>
+
+            <div class="ai-content">
+
+                <span class="section-label">
+                    NEXT STEP
+                </span>
+
+                <h2>
+                    Continue exploring this career
+                </h2>
+
+                <p>
+                    Use your career analysis to explore personalized
+                    AI guidance, develop your missing skills and build
+                    a roadmap for {{ career.title }}.
+                </p>
+
+            </div>
+
+            <div class="roadmap-actions">
+
+                <button
+                    type="button"
+                    class="roadmap-button ai-guidance-button"
+                    (click)="goToAiGuidance()"
+                >
+                    <span>
+                        AI Career Guidance
+                    </span>
+                </button>
+
+
+                <!-- Generate / Renew Roadmap -->
+                <button
+                    type="button"
+                    class="roadmap-button"
+                    [disabled]="isGeneratingRoadmap"
+                    (click)="generateOrRenewRoadmap()"
+                >
+
+                    @if (isGeneratingRoadmap) {
+
+                    <span class="button-spinner"></span>
+
+                    <span>
+                        Generating
+                    </span>
+
+                    } @else {
+
+                    <span>
+                        Generate roadmap
+                    </span>
+
+                    }
+
+                </button>
+
+                <button
+                    type="button"
+                    class="roadmap-button secondary-roadmap-button"
+                    [disabled]="isGeneratingRoadmap"
+                    (click)="goToRoadmap()"
+                >
+
+                    <span>
+                        View roadmap
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        @if (roadmapMessage) {
+
+        <div class="roadmap-success-message">
+
+            <span>
+                ✓
+            </span>
+
+            <span>
+                {{ roadmapMessage }}
+            </span>
+
+        </div>
+
+        }
+
+
+        }
+
+    </div>
+
+</section>

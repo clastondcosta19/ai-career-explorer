@@ -1,0 +1,1164 @@
+<section class="pathway-page">
+
+    <div class="pathway-container">
+
+        <header class="pathway-header">
+            <div class="header-copy">
+                <span class="eyebrow">Career Pathways</span>
+
+                <h1>
+                    Understand your
+                    <span>possible path forward.</span>
+                </h1>
+
+                <p>
+                    Explore education routes and the steps that can
+                    help you move from where you are today toward
+                    the career you are exploring.
+                </p>
+            </div>
+        </header>
+
+
+        @if (isLoading) {
+
+        <section class="state-card">
+
+            <div class="loading-orb"></div>
+
+            <h2>
+                Preparing your pathway
+            </h2>
+
+            <p>
+                We're connecting your profile with available
+                career and education information.
+            </p>
+
+        </section>
+
+        }
+
+        @else if (errorMessage) {
+
+        <section class="state-card error-state">
+
+            <div class="state-icon">
+                !
+            </div>
+
+            <h2>
+                We couldn't load your pathway
+            </h2>
+
+            <p>
+                {{ errorMessage }}
+            </p>
+
+            <button type="button" class="primary-button" (click)="goToProfile()">
+
+                Open My Profile
+
+            </button>
+
+        </section>
+
+        }
+
+        @else {
+
+        <section class="starting-point">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-label">
+                        YOUR STARTING POINT
+                    </span>
+
+                    <h2>
+                        Where you are today
+                    </h2>
+                </div>
+
+                <button type="button" class="outline-button" (click)="goToProfile()">
+
+                    Edit Profile
+
+                </button>
+
+            </div>
+
+
+            <div class="profile-grid">
+
+                <div class="profile-card">
+                    <span class="profile-label">
+                        EDUCATION
+                    </span>
+
+                    <strong>
+                        {{ getEducationLevel() }}
+                    </strong>
+                </div>
+
+
+                <div class="profile-card">
+                    <span class="profile-label">
+                        CURRENT CLASS
+                    </span>
+
+                    <strong>
+                        {{ getCurrentClass() }}
+                    </strong>
+                </div>
+
+
+                <div class="profile-card">
+                    <span class="profile-label">
+                        STREAM
+                    </span>
+
+                    <strong>
+                        {{ getStream() }}
+                    </strong>
+                </div>
+
+
+                <div class="profile-card">
+                    <span class="profile-label">
+                        CAREER GOAL
+                    </span>
+
+                    <strong>
+                        {{ profile?.careerGoals || 'Not provided' }}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            @if (getSubjects().length > 0) {
+
+            <div class="profile-tags-block">
+
+                <span class="profile-label">
+                    YOUR SUBJECTS
+                </span>
+
+                <div class="tag-list">
+
+                    @for (
+                    subject of getSubjects();
+                    track subject
+                    ) {
+
+                    <span class="tag">
+                        {{ subject }}
+                    </span>
+
+                    }
+
+                </div>
+
+            </div>
+
+            }
+
+        </section>
+
+
+        @if (selectedCareer) {
+
+        <section class="career-focus">
+
+            <div class="career-focus-header">
+
+                <div class="career-symbol">
+                    {{ selectedCareer.title?.charAt(0) }}
+                </div>
+
+                <div>
+
+                    <span class="section-label">
+                        CAREER YOU ARE EXPLORING
+                    </span>
+
+                    <h2>
+                        {{ selectedCareer.title }}
+                    </h2>
+
+                    @if (selectedCareer.domain) {
+
+                    <p>
+                        {{ selectedCareer.domain }}
+
+                        @if (selectedCareer.careerFamily) {
+                        · {{ selectedCareer.careerFamily }}
+                        }
+
+                    </p>
+
+                    }
+
+                </div>
+
+            </div>
+
+
+            @if (selectedCareer.description) {
+
+            <p class="career-description">
+                {{ selectedCareer.description }}
+            </p>
+
+            }
+
+
+            <div class="career-actions">
+
+                <button type="button" class="primary-button" (click)="analyzeCareer()">
+                    Analyze My Fit
+                </button>
+
+
+                <button type="button" class="secondary-button" (click)="goToAiGuidance()">
+                    Ask AI Guide
+                </button>
+
+
+                <button type="button" class="text-button" (click)="openCareer(selectedCareer)">
+                    View Career Details
+                </button>
+
+            </div>
+
+        </section>
+
+        }
+
+
+        @if (selectedCareer) {
+
+        <section class="pathway-introduction">
+
+            <span class="section-label">
+                YOUR POSSIBLE ROUTE
+            </span>
+
+            <h2>
+                Education options toward
+                {{ selectedCareer.title }}
+            </h2>
+
+            <p>
+                There can be more than one way to move toward a
+                career. The options below are organized around
+                your current education stage where the available
+                information supports it.
+            </p>
+
+        </section>
+
+        }
+
+        @if (selectedCareer) {
+
+        <section class="pathway-timeline-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        YOUR PATHWAY
+                    </span>
+
+                    <h2>
+                        A possible journey toward
+                        {{ selectedCareer.title }}
+                    </h2>
+
+                    <p>
+                        Your pathway is based on your current
+                        education, available education options,
+                        career requirements and the skills you
+                        can continue developing.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="pathway-timeline">
+
+                <article class="pathway-step">
+
+                    <div class="pathway-step-number">
+                        01
+                    </div>
+
+                    <div class="pathway-step-content">
+
+                        <span class="pathway-step-label">
+                            You are here
+                        </span>
+
+                        <h3>
+                            {{ getEducationLevelLabel() }}
+                        </h3>
+
+
+                        <p>
+                            You are currently building your academic
+                            foundation through
+                            {{ getEducationLevel() }}
+                            @if (profile?.currentClass) {
+                            in {{ getCurrentClass() }}
+                            }.
+                            Your
+                            @if (profile?.stream) {
+                            {{ getStream() }} stream,
+                            }
+                            current subjects and interests provide
+                            a foundation you can continue developing
+                            toward {{ selectedCareer.title }}.
+                        </p>
+
+
+                        <div class="pathway-step-tags">
+
+                            @if (profile?.stream) {
+
+                            <span class="pathway-step-tag">
+                                Stream: {{ profile?.stream }}
+                            </span>
+
+                            }
+
+                            @if (profile?.currentClass) {
+
+                            <span class="pathway-step-tag">
+                                {{ profile?.currentClass }}
+                            </span>
+
+                            }
+
+                            @for (
+                            subject of getSubjects().slice(0, 3);
+                            track subject
+                            ) {
+
+                            <span class="pathway-step-tag">
+                                {{ subject }}
+                            </span>
+
+                            }
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <article class="pathway-step">
+
+                    <div class="pathway-step-number">
+                        02
+                    </div>
+
+                    <div class="pathway-step-content">
+
+                        <span class="pathway-step-label">
+                            Next stage
+                        </span>
+
+                        <h3>
+                            Choose a relevant education pathway
+                        </h3>
+
+
+                        <p>
+                            Since you are currently at
+                            {{ getEducationLevel() }}
+                            @if (profile?.currentClass) {
+                            in {{ getCurrentClass() }}
+                            },
+                            the next stage is to compare the education
+                            programs connected to
+                            {{ selectedCareer.title }}.
+                            Review their entry level, duration, subjects
+                            and eligibility requirements before deciding
+                            which options you want to investigate further.
+                        </p>
+
+                        <div class="pathway-step-tags">
+
+                            @for (
+                            program of getRelevantEducationPrograms().slice(0, 3);
+                            track program.id
+                            ) {
+
+                            <span class="pathway-step-tag">
+                                {{ program.name }}
+                            </span>
+
+                            }
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <article class="pathway-step">
+
+                    <div class="pathway-step-number">
+                        03
+                    </div>
+
+                    <div class="pathway-step-content">
+
+                        <span class="pathway-step-label">
+                            Build your skills
+                        </span>
+
+                        <h3>
+                            Strengthen career-relevant skills
+                        </h3>
+
+
+                        <p>
+                            You already have a starting point through
+                            the skills in your profile.
+                            @if (getSkills().length > 0) {
+                            Continue strengthening these skills through
+                            coursework, projects and practical practice,
+                            while developing additional skills associated
+                            with {{ selectedCareer.title }}.
+                            } @else {
+                            You can begin developing skills associated
+                            with {{ selectedCareer.title }}
+                            through coursework, projects and practical
+                            practice.
+                            }
+                        </p>
+
+                        <div class="pathway-step-tags">
+
+                            @for (
+                            skill of getCareerSkills().slice(0, 5);
+                            track skill
+                            ) {
+
+                            <span class="pathway-step-tag">
+                                {{ skill }}
+                            </span>
+
+                            }
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <article class="pathway-step">
+
+                    <div class="pathway-step-number">
+                        04
+                    </div>
+
+                    <div class="pathway-step-content">
+
+                        <span class="pathway-step-label">
+                            Prepare for the workplace
+                        </span>
+
+                        <h3>
+                            Gain practical experience
+                        </h3>
+
+
+                        <p>
+                            As you progress through your education,
+                            use projects, practical exercises,
+                            internships where available, and other
+                            hands-on experiences to understand how
+                            the skills used in {{ selectedCareer.title }}
+                            are applied in real work.
+                            This can also help you discover which
+                            parts of the field interest you most.
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+        }
+
+        @if (selectedCareer) {
+
+        <section class="next-actions-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        WHAT TO DO NEXT
+                    </span>
+
+                    <h2>
+                        Start building toward
+                        {{ selectedCareer.title }}
+                    </h2>
+
+                    <p>
+                        A few practical actions can help you turn
+                        this pathway into steady progress.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="next-actions-grid">
+
+                <article class="next-action-card">
+
+                    <div class="next-action-number">
+                        01
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Understand the career
+                        </h3>
+
+                        <p>
+                            Learn what {{ selectedCareer.title }}
+                            involves, what professionals in this
+                            field work on, and which areas interest
+                            you most.
+                        </p>
+
+                        <button
+                            type="button"
+                            class="next-action-link"
+                            (click)="openCareer(selectedCareer)">
+
+                            Explore career details
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+                <article class="next-action-card">
+
+                    <div class="next-action-number">
+                        02
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Compare education options
+                        </h3>
+
+                        <p>
+                            Review the available education programs
+                            and compare their duration, subjects
+                            and eligibility requirements.
+                        </p>
+
+                        <button
+                            type="button"
+                            class="next-action-link"
+                            (click)="scrollToEducation()">
+
+                            View education options
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+                <article class="next-action-card">
+
+                    <div class="next-action-number">
+                        03
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Check your career fit
+                        </h3>
+
+                        <p>
+                            Review your current skills and see which
+                            career requirements you already match
+                            and which areas you can continue developing.
+                        </p>
+
+                        <button
+                            type="button"
+                            class="next-action-link"
+                            (click)="analyzeCareer()">
+
+                            Analyze my fit
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+                <article class="next-action-card">
+
+                    <div class="next-action-number">
+                        04
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Get personalized guidance
+                        </h3>
+
+                        <p>
+                            Use your career profile to explore
+                            personalized guidance and understand
+                            possible next steps.
+                        </p>
+
+                        <button
+                            type="button"
+                            class="next-action-link"
+                            (click)="goToAiGuidance()">
+
+                            Get AI guidance
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+                <article class="next-action-card">
+
+                    <div class="next-action-number">
+                        05
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Build your career roadmap
+                        </h3>
+
+                        <p>
+                            Turn this career pathway into a practical
+                            step-by-step plan for developing your
+                            skills, education and career preparation.
+                        </p>
+
+                        <button
+                            type="button"
+                            class="next-action-link"
+                            (click)="goToRoadmap()">
+
+                            View career roadmap
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+        }
+
+        @if (getRelevantEducationPrograms().length > 0) {
+
+        <section class="education-section" id="education-options">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        EDUCATION OPTIONS
+                    </span>
+
+                    <h2>
+                        Education pathways for
+                        {{ selectedCareer?.title }}
+                    </h2>
+
+                    <p>
+                        These programs are connected to this career.
+                        Compare the entry level, duration and eligibility
+                        before choosing your next academic step.
+                    </p>
+
+                </div>
+
+                @if (getPreferredEntryLevel()) {
+
+                <span class="stage-badge">
+                    {{ getPreferredEntryLevel() }}
+                </span>
+
+                }
+
+            </div>
+
+
+            <div class="education-grid">
+
+                @for (
+                program of getRelevantEducationPrograms();
+                track program.id;
+                let i = $index
+                ) {
+
+                <article class="education-card">
+
+                    <div class="education-number">
+                        {{ (i + 1).toString().padStart(2, '0') }}
+                    </div>
+
+
+                    <div class="education-card-content">
+
+                        <div class="education-meta">
+
+                            @if (program.entryLevel) {
+
+                            <span class="entry-badge">
+                                {{ program.entryLevel }}
+                            </span>
+
+                            }
+
+                            @if (
+                            program.entryLevel &&
+                            getPreferredEntryLevel() &&
+                            program.entryLevel.toLowerCase() === getPreferredEntryLevel()
+                            ) {
+
+                            <span class="entry-badge preferred-badge">
+                                Aligned with your current stage
+                            </span>
+
+                            }
+
+                            @if (
+                            program.entryLevel &&
+                            getPreferredEntryLevel() &&
+                            program.entryLevel.toLowerCase() !== getPreferredEntryLevel()
+                            ) {
+
+                            <span class="entry-badge alternative-badge">
+                                Different entry stage
+                            </span>
+
+                            }
+
+                            @if (program.typicalDuration) {
+
+                            <span class="duration">
+                                {{ program.typicalDuration }}
+                            </span>
+
+                            }
+
+                        </div>
+
+
+                        <h3>
+                            {{ program.name }}
+                        </h3>
+
+
+                        @if (program.field) {
+
+                        <span class="education-field">
+                            {{ program.field }}
+                        </span>
+
+                        }
+
+
+                        @if (program.description) {
+
+                        <p>
+                            {{ program.description }}
+                        </p>
+
+                        }
+
+
+                        @if (program.subjects) {
+
+                        <div class="education-detail">
+
+                            <span>
+                                Typical subjects
+                            </span>
+
+                            <p>
+                                {{ program.subjects }}
+                            </p>
+
+                        </div>
+
+                        }
+
+
+                        @if (program.eligibility) {
+
+                        <div class="education-detail">
+
+                            <span>
+                                Eligibility
+                            </span>
+
+                            <p>
+                                {{ program.eligibility }}
+                            </p>
+
+                        </div>
+
+                        }
+
+                    </div>
+
+                </article>
+
+                }
+
+            </div>
+
+        </section>
+
+        }
+
+
+        @else {
+
+        <section class="empty-pathway">
+
+            <span class="section-label">
+                EDUCATION OPTIONS
+            </span>
+
+            <h2>
+                Education information is not available yet
+            </h2>
+
+            <p>
+                We don't have education-program information
+                connected to this career yet. You can still
+                explore the career and use AI Guidance to
+                understand the next questions to investigate.
+            </p>
+
+            @if (selectedCareer) {
+
+            <button
+                type="button"
+                class="primary-button"
+                (click)="openCareer(selectedCareer)">
+
+                Explore Career
+
+            </button>
+
+            }
+
+        </section>
+
+        }
+
+        @if (getSkills().length > 0) {
+
+        <section class="skills-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        CURRENT SKILLS
+                    </span>
+
+                    <h2>
+                        Skills you already have
+                    </h2>
+
+                    <p>
+                        These are the skills currently listed in
+                        your profile.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="skill-list">
+
+                @for (
+                skill of getSkills();
+                track skill;
+                let i = $index
+                ) {
+
+                <div class="skill-item">
+
+                    <span class="skill-number">
+                        {{ (i + 1).toString().padStart(2, '0') }}
+                    </span>
+
+                    <span>
+                        {{ skill }}
+                    </span>
+
+                </div>
+
+                }
+
+            </div>
+
+        </section>
+
+        }
+
+
+        @if (getCareerSkillDetails().length > 0) {
+
+        <section class="career-skills-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        SKILLS TO DEVELOP
+                    </span>
+
+                    <h2>
+                        Skills connected to
+                        {{ selectedCareer?.title }}
+                    </h2>
+
+                    <p>
+                        These are career-associated skills that are
+                        not already listed in your profile. The
+                        explanations below come from the skill
+                        information stored for this career.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="career-skill-list">
+
+                @for (
+                skill of getCareerSkillDetails();
+                track skill.id;
+                let i = $index
+                ) {
+
+                <article class="career-skill-item">
+
+                    <div class="career-skill-top">
+
+                        <span class="career-skill-number">
+                            {{ (i + 1).toString().padStart(2, '0') }}
+                        </span>
+
+
+                        <div class="career-skill-content">
+
+                            <h3>
+                                {{ skill.name }}
+                            </h3>
+
+                            @if (skill.category) {
+
+                            <span class="career-skill-category">
+                                {{ skill.category }}
+                            </span>
+
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    @if (skill.description) {
+
+                    <div class="career-skill-explanation">
+
+                        <span class="career-skill-explanation-label">
+                            WHY IT MATTERS
+                        </span>
+
+                        <p>
+                            {{ skill.description }}
+                        </p>
+
+                    </div>
+
+                    }
+
+                </article>
+
+                }
+
+            </div>
+
+        </section>
+
+        }
+
+        @if (getOtherCareers().length > 0) {
+
+        <section class="other-careers-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        KEEP EXPLORING
+                    </span>
+
+                    <h2>
+                        Other careers to explore
+                    </h2>
+
+                    <p>
+                        These are available careers in the
+                        Career Explorer. They are not presented
+                        as predictions or recommendations.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="outline-button"
+                    (click)="goToExplorer()">
+
+                    View All Careers
+
+                </button>
+
+            </div>
+
+
+            <div class="other-careers-grid">
+
+                @for (
+                career of getOtherCareers();
+                track career.id
+                ) {
+
+                <article class="other-career-card">
+
+                    <div class="other-career-icon">
+                        {{ career.title?.charAt(0) }}
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            {{ career.domain }}
+                        </span>
+
+                        <h3>
+                            {{ career.title }}
+                        </h3>
+
+                        @if (career.role) {
+
+                        <p>
+                            {{ career.role }}
+                        </p>
+
+                        }
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="small-arrow-button"
+                        (click)="openCareer(career)"
+                        [attr.aria-label]="'Explore ' + career.title">
+
+                        →
+
+                    </button>
+
+                </article>
+
+                }
+
+            </div>
+
+        </section>
+
+        }
+
+
+        <section class="pathway-note">
+
+            <div class="note-icon">
+                📌
+            </div>
+
+            <div>
+
+                <strong>
+                    Your pathway can change as you learn more.
+                </strong>
+
+                <p>
+                    Career exploration is a process. Your interests,
+                    subjects, skills, education choices and goals can
+                    evolve over time. Use this page as a starting
+                    point for exploration rather than a fixed plan.
+                </p>
+
+            </div>
+
+        </section>
+
+        }
+
+    </div>
+
+</section>

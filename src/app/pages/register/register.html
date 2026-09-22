@@ -1,0 +1,256 @@
+<section class="register-page">
+
+    <div class="register-container">
+
+        <div class="register-info animate-slide-left">
+
+            <a routerLink="/" class="register-brand">
+                <span class="brand-mark">✦</span>
+
+                <span>
+                    <strong>AI Career</strong>
+                    <strong class="brand-accent">Explorer</strong>
+                </span>
+            </a>
+
+
+            <div class="info-content">
+
+                <span class="info-label">
+                    START YOUR JOURNEY
+                </span>
+
+                <h1>
+                    Your career
+                    <span>exploration starts here.</span>
+                </h1>
+
+                <p>
+                    Create your account and build a profile that helps you
+                    explore careers, understand your strengths and discover
+                    possible pathways.
+                </p>
+
+                </div>
+        </div>
+
+
+        <div class="register-form-wrapper animate-slide-right">
+
+            <div class="register-form-card">
+
+                <div class="form-header">
+
+                    <span class="mobile-form-icon">
+                        ✦
+                    </span>
+
+                    <span class="form-label">
+                        CREATE ACCOUNT
+                    </span>
+
+                    <h2>
+                        Start exploring
+                    </h2>
+
+                    <p>
+                        Create your account to begin your career journey.
+                    </p>
+
+                </div>
+
+
+                <form [formGroup]="registerForm" (ngSubmit)="submit()" novalidate>
+
+                    @if (errorMessage) {
+                    <div class="server-message error-message">
+                        {{ errorMessage }}
+                    </div>
+                    }
+
+                    @if (successMessage) {
+                    <div class="server-message success-message">
+                        {{ successMessage }}
+                    </div>
+                    }
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Full name
+                        </label>
+
+                        <div class="input-wrapper" [class.input-error]="name.invalid && name.touched">
+
+                            <input id="name" type="text" formControlName="name" placeholder="Enter your full name"
+                                autocomplete="name" />
+
+                        </div>
+
+                        @if (name.invalid && name.touched) {
+
+                        <div class="field-error">
+
+                            @if (name.errors?.['required']) {
+                            <span>Please enter your name.</span>
+                            }
+
+                            @if (name.errors?.['minlength']) {
+                            <span>Name must contain at least 2 characters.</span>
+                            }
+
+                        </div>
+
+                        }
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email address
+                        </label>
+
+                        <div class="input-wrapper" [class.input-error]="email.invalid && email.touched">
+
+                            <input id="email" type="email" formControlName="email" placeholder="you@example.com"
+                                autocomplete="email" />
+
+                        </div>
+
+                        @if (email.invalid && email.touched) {
+
+                        <div class="field-error">
+
+                            @if (email.errors?.['required']) {
+                            <span>Please enter your email address.</span>
+                            }
+
+                            @if (email.errors?.['email']) {
+                            <span>Please enter a valid email address.</span>
+                            }
+
+                        </div>
+
+                        }
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="input-wrapper" [class.input-error]="password.invalid && password.touched">
+
+
+                            <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                                placeholder="Create a password" autocomplete="new-password" />
+
+                            <button type="button" class="password-toggle" (click)="togglePassword()"
+                                [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+                                {{ showPassword ? 'Hide' : 'Show' }}
+                            </button>
+
+                        </div>
+
+
+                        <div class="password-hint">
+                            Use at least 8 characters.
+                        </div>
+
+
+                        @if (password.invalid && password.touched) {
+
+                        <div class="field-error">
+
+                            @if (password.errors?.['required']) {
+                            <span>Please create a password.</span>
+                            }
+
+                            @if (password.errors?.['minlength']) {
+                            <span>Password must contain at least 8 characters.</span>
+                            }
+
+                        </div>
+
+                        }
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="confirmPassword">
+                            Confirm password
+                        </label>
+
+                        <div class="input-wrapper" [class.input-error]="
+                confirmPassword.touched &&
+                (!passwordsMatch() || confirmPassword.invalid)
+              ">
+
+
+                            <input id="confirmPassword" [type]="showPassword ? 'text' : 'password'"
+                                formControlName="confirmPassword" placeholder="Re-enter your password"
+                                autocomplete="new-password" />
+
+                        </div>
+
+
+                        @if (
+                        confirmPassword.touched &&
+                        confirmPassword.value &&
+                        !passwordsMatch()
+                        ) {
+
+                        <div class="field-error">
+                            <span>Passwords do not match.</span>
+                        </div>
+
+                        }
+
+                    </div>
+
+                    <button type="submit" class="submit-button" [disabled]="isSubmitting">
+
+                        @if (!isSubmitting) {
+
+                        <span>
+                            Create Account
+                        </span>
+
+                        } @else {
+
+                        <span class="loading-spinner"></span>
+
+                        <span>
+                            Creating account
+                        </span>
+
+                        }
+
+                    </button>
+
+
+                    <div class="login-prompt">
+
+                        <span>
+                            Already have an account?
+                        </span>
+
+                        <a routerLink="/login">
+                            Login
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

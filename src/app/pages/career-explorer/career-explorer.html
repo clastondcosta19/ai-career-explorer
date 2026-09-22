@@ -1,0 +1,421 @@
+<section class="explorer-page">
+
+    <div class="explorer-container">
+
+        <header class="explorer-header">
+
+            <div class="header-copy">
+
+                <span class="eyebrow">
+                    Career Explorer
+                </span>
+
+                <h1>
+                    Explore careers that
+                    <span>fit your future.</span>
+                </h1>
+
+                <p>
+                    Discover career options, understand what each path
+                    involves, and explore possibilities based on your
+                    interests, strengths and goals.
+                </p>
+
+            </div>
+
+            <div class="header-stat">
+
+                <div class="stat-number">
+                    {{ careers.length }}
+                </div>
+
+                <div class="stat-label">
+                    careers available
+                </div>
+
+            </div>
+
+        </header>
+
+        <section class="explorer-controls">
+
+            <div class="search-wrapper">
+
+                <span class="search-icon" aria-hidden="true">
+                    ⌕
+                </span>
+
+                <input
+                    type="text"
+                    [(ngModel)]="searchTerm"
+                    (ngModelChange)="onSearchChange()"
+                    placeholder="Search careers, roles, skills or domains..."
+                    aria-label="Search careers"
+                />
+
+                @if (searchTerm) {
+
+                    <button
+                        type="button"
+                        class="clear-search"
+                        aria-label="Clear search"
+                        (click)="searchTerm = ''; onSearchChange()"
+                    >
+                        ×
+                    </button>
+
+                }
+
+            </div>
+
+
+            <div class="filter-row">
+
+                <div class="filter-group">
+
+                    <label for="domain">
+                        Career domain
+                    </label>
+
+                    <select
+                        id="domain"
+                        [(ngModel)]="selectedDomain"
+                        (ngModelChange)="onDomainChange()"
+                    >
+
+                        <option value="">
+                            All domains
+                        </option>
+
+                        @for (
+                            domain of domains;
+                            track domain
+                        ) {
+
+                            <option [value]="domain">
+                                {{ domain }}
+                            </option>
+
+                        }
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="family">
+                        Career family
+                    </label>
+
+                    <select
+                        id="family"
+                        [(ngModel)]="selectedFamily"
+                        (ngModelChange)="onFamilyChange()"
+                    >
+
+                        <option value="">
+                            All career families
+                        </option>
+
+                        @for (
+                            family of careerFamilies;
+                            track family
+                        ) {
+
+                            <option [value]="family">
+                                {{ family }}
+                            </option>
+
+                        }
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="clear-filters"
+                    (click)="clearFilters()"
+                >
+                    Clear filters
+                </button>
+
+            </div>
+
+        </section>
+
+        <div class="results-bar">
+
+            <div class="results-count">
+
+                <strong>
+                    {{ filteredCareers.length }}
+                </strong>
+
+                <span>
+                    career{{ filteredCareers.length === 1 ? '' : 's' }}
+                    found
+                </span>
+
+            </div>
+
+            @if (
+                searchTerm ||
+                selectedDomain ||
+                selectedFamily
+            ) {
+
+                <span class="filtered-indicator">
+                    Filters applied
+                </span>
+
+            }
+
+        </div>
+
+        @if (isLoading) {
+
+            <div class="state-card">
+
+                <div class="loading-orb"></div>
+
+                <h2>
+                    Discovering career options...
+                </h2>
+
+                <p>
+                    We're loading career information for you.
+                </p>
+
+            </div>
+
+        }
+
+        @else if (errorMessage) {
+
+            <div class="state-card error-state">
+
+                <div class="state-icon">
+                    !
+                </div>
+
+                <h2>
+                    We couldn't load careers
+                </h2>
+
+                <p>
+                    {{ errorMessage }}
+                </p>
+
+                <button
+                    type="button"
+                    class="retry-button"
+                    (click)="loadCareers()"
+                >
+                    Try again
+                </button>
+
+            </div>
+
+        }
+
+        @else if (filteredCareers.length === 0) {
+
+            <div class="state-card empty-state">
+
+                <div class="state-icon">
+                    ⌕
+                </div>
+
+                <h2>
+                    No careers found
+                </h2>
+
+                <p>
+                    Try a different search term or remove one of
+                    the filters.
+                </p>
+
+                <button
+                    type="button"
+                    class="retry-button"
+                    (click)="clearFilters()"
+                >
+                    View all careers
+                </button>
+
+            </div>
+
+        }
+
+        @else {
+
+            <div class="career-grid">
+
+                @for (
+                    career of filteredCareers;
+                    track career.id
+                ) {
+
+                    <article class="career-card">
+
+                        <div class="card-header">
+
+                            <div class="career-icon">
+
+                                {{
+                                    career.title
+                                        ? career.title.charAt(0)
+                                        : '?'
+                                }}
+
+                            </div>
+
+                            @if (career.domain) {
+
+                                <span class="domain-badge">
+                                    {{ career.domain }}
+                                </span>
+
+                            }
+
+                        </div>
+
+
+                        <div class="career-content">
+
+                            @if (career.careerFamily) {
+
+                                <span class="career-family">
+                                    {{ career.careerFamily }}
+                                </span>
+
+                            }
+
+                            <h2>
+                                {{ career.title }}
+                            </h2>
+
+                            @if (career.description) {
+
+                                <p class="career-description">
+                                    {{ career.description }}
+                                </p>
+
+                            }
+
+                        </div>
+
+                        <div class="career-info">
+
+                            @if (career.role) {
+
+                                <div class="info-item">
+
+                                    <span class="info-label">
+                                        Role
+                                    </span>
+
+                                    <span class="info-value">
+                                        {{ career.role }}
+                                    </span>
+
+                                </div>
+
+                            }
+
+
+                            @if (career.requiredEducation) {
+
+                                <div class="info-item">
+
+                                    <span class="info-label">
+                                        Education
+                                    </span>
+
+                                    <span class="info-value">
+                                        {{ career.requiredEducation }}
+                                    </span>
+
+                                </div>
+
+                            }
+
+                        </div>
+
+                        @if (
+                            career.requiredSkills &&
+                            career.requiredSkills.length > 0
+                        ) {
+
+                            <div class="career-skills">
+
+                                <div class="skills-heading">
+                                    Key skills
+                                </div>
+
+                                <div class="skill-list">
+
+                                    @for (
+                                        skill of career.requiredSkills.slice(0, 4);
+                                        track skill.id
+                                    ) {
+
+                                        <span class="skill-chip">
+                                            {{ skill.name }}
+                                        </span>
+
+                                    }
+
+                                </div>
+
+                                @if (career.requiredSkills.length > 4) {
+
+                                    <span class="more-skills">
+                                        +{{ career.requiredSkills.length - 4 }}
+                                        more
+                                    </span>
+
+                                }
+
+                            </div>
+
+                        }
+
+                        <div class="card-footer">
+
+                            <button
+                                type="button"
+                                class="explore-button"
+                                (click)="exploreCareer(career)"
+                            >
+
+                                <span class="button-text">
+                                    Explore Career
+                                </span>
+
+                                <span
+                                    class="button-arrow"
+                                    aria-hidden="true"
+                                >
+                                    →
+                                </span>
+
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                }
+
+            </div>
+
+        }
+
+    </div>
+
+</section>

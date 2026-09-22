@@ -1,0 +1,568 @@
+<section class="ai-guidance-page">
+
+    <div class="ai-guidance-container">
+
+        @if (isLoading && !career) {
+
+        <div class="state-card">
+
+            <div class="spinner"></div>
+
+            <h2>Preparing your guidance</h2>
+
+            <p>
+                We're preparing your career information and analysis.
+            </p>
+
+        </div>
+
+        }
+
+        @else if (errorMessage) {
+
+        <div class="state-card error-card">
+
+            <div class="error-icon">
+                !
+            </div>
+
+            <h2>Guidance unavailable</h2>
+
+            <p>
+                {{ errorMessage }}
+            </p>
+
+            <button type="button" class="primary-button" (click)="goToExplorer()">
+                Back to careers
+            </button>
+
+        </div>
+
+        }
+
+        @else if (career && match && skillGap) {
+
+        <!-- Hero -->
+        <section class="ai-hero">
+
+            <div class="hero-copy">
+
+                <span class="eyebrow">
+                    AI CAREER GUIDANCE
+                </span>
+
+                <h1>
+                    Let's make your
+                    <span>career path</span>
+                    clearer.
+                </h1>
+
+                <p>
+                    We've combined your career analysis, current skills
+                    and profile information to help you understand what
+                    you could explore next.
+                </p>
+
+            </div>
+
+            <div class="ai-orbit">
+
+                <div class="orbit-ring ring-one"></div>
+
+                <div class="orbit-ring ring-two"></div>
+
+                <div class="ai-core">
+                    ✦
+                </div>
+
+                <span class="orbit-dot dot-one"></span>
+                <span class="orbit-dot dot-two"></span>
+                <span class="orbit-dot dot-three"></span>
+
+            </div>
+
+        </section>
+
+        <section class="career-context">
+
+            <div class="career-icon">
+                {{ getInitial() }}
+            </div>
+
+            <div class="career-context-copy">
+
+                <span>
+                    YOUR SELECTED CAREER
+                </span>
+
+                <h2>
+                    {{ career.title }}
+                </h2>
+
+                <p>
+                    {{ career.careerFamily }}
+                    <span>•</span>
+                    {{ career.domain }}
+                </p>
+
+            </div>
+
+            <div class="career-score">
+
+                <strong>
+                    {{ getScore() }}%
+                </strong>
+
+                <span>
+                    compatibility
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- Quick Understanding -->
+        <section class="section">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    YOUR STARTING POINT
+                </span>
+
+                <h2>
+                    Here's what we know about your fit
+                </h2>
+
+                <p>
+                    These signals come from your current profile and
+                    career analysis. They are a starting point for
+                    exploration, not a final decision.
+                </p>
+
+            </div>
+
+
+            <div class="insight-grid">
+
+                <div class="insight-card">
+
+                    <div class="insight-icon">
+                        ◌
+                    </div>
+
+                    <span class="insight-label">
+                        COMPATIBILITY
+                    </span>
+
+                    <strong>
+                        {{ getScore() }}%
+                    </strong>
+
+                    <p>
+                        Your current profile shows this level of alignment
+                        with {{ career.title }}.
+                    </p>
+
+                </div>
+
+                <div class="insight-card">
+
+                    <div class="insight-icon">
+                        ✓
+                    </div>
+
+                    <span class="insight-label">
+                        CONFIDENCE
+                    </span>
+
+                    <strong>
+                        {{ getConfidence() }}
+                    </strong>
+
+                    <p>
+                        This reflects how much information is currently
+                        available for the analysis.
+                    </p>
+
+                </div>
+
+                <div class="insight-card">
+
+                    <div class="insight-icon">
+                        +
+                    </div>
+
+                    <span class="insight-label">
+                        SKILL FIT
+                    </span>
+
+                    <strong>
+                        {{ getSkillPercentage() }}%
+                    </strong>
+
+                    <p>
+                        {{ getMatchedSkills().length }}
+                        of
+                        {{ skillGap.totalRequiredSkills }}
+                        identified career skills currently match.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="ai-conversation">
+
+            <div class="conversation-header">
+
+                <div class="ai-avatar">
+                    ✦
+                </div>
+
+                <div>
+
+                    <span class="section-label">
+                        YOUR AI CAREER GUIDE
+                    </span>
+
+                    <h2>
+                        Let's understand your result
+                    </h2>
+
+                </div>
+
+                <span class="online-indicator">
+                    <span></span>
+                    Ready
+                </span>
+
+            </div>
+
+            <div class="message ai-message">
+
+                <div class="message-avatar">
+                    ✦
+                </div>
+
+                <div class="message-content">
+
+                    <p class="message-intro">
+                        I've looked at your current career analysis.
+                    </p>
+
+                    <p>
+                        You have a
+                        <strong>{{ getScore() }}%</strong>
+                        compatibility score for
+                        <strong>{{ career.title }}</strong>,
+                        with a
+                        <strong>{{ getSkillPercentage() }}%</strong>
+                        skill match.
+                    </p>
+
+                    <p>
+                        I can help you understand what this means,
+                        identify the areas you could develop, and explore
+                        realistic education and career pathways.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="suggested-section">
+
+                <span class="suggested-label">
+                    EXPLORE WITH YOUR AI GUIDE
+                </span>
+
+                <div class="suggested-grid">
+
+                    <button type="button" class="suggestion-card" [disabled]="isAiLoading"
+                        (click)="askAi('Why might this career suit me?')">
+
+                        <span class="suggestion-icon">
+                            1
+                        </span>
+
+                        <span>
+                            Why might this career suit me?
+                        </span>
+
+
+                    </button>
+
+
+                    <button type="button" class="suggestion-card" [disabled]="isAiLoading"
+                        (click)="askAi('What skills should I develop?')">
+
+                        <span class="suggestion-icon">
+                            2
+                        </span>
+
+                        <span>
+                            What skills should I develop?
+                        </span>
+
+
+                    </button>
+
+                    <button type="button" class="suggestion-card" [disabled]="isAiLoading"
+                        (click)="askAi('What could I do next?')">
+
+                        <span class="suggestion-icon">
+                            3
+                        </span>
+
+                        <span>
+                            What could I do next?
+                        </span>
+
+                    </button>
+
+                    <button type="button" class="suggestion-card" [disabled]="isAiLoading"
+                        (click)="askAi('What education paths can I explore?')">
+
+                        <span class="suggestion-icon">
+                            4
+                        </span>
+
+                        <span>
+                            What education paths can I explore?
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            @if (isAiLoading) {
+
+            <div class="message ai-message">
+
+                <div class="message-avatar">
+                    ✦
+                </div>
+
+                <div class="message-content">
+
+                    <p class="message-intro">
+                        AI Career Guide
+                    </p>
+
+                    <p>
+                        Thinking about your question...
+                    </p>
+
+                </div>
+
+            </div>
+
+            }
+
+            @if (aiErrorMessage) {
+
+            <div class="message ai-message">
+
+                <div class="message-avatar">
+                    !
+                </div>
+
+                <div class="message-content">
+
+                    <p class="message-intro">
+                        AI Career Guide
+                    </p>
+
+                    <p>
+                        {{ aiErrorMessage }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            }
+
+            @if (aiResponse) {
+
+            <div class="message ai-message ai-response-message">
+
+                <div class="message-avatar">
+                    ✦
+                </div>
+
+                <div class="message-content ai-response-content">
+
+                    <p class="response-label">
+                        AI CAREER GUIDE
+                    </p>
+
+                    <div class="ai-response-text" [innerHTML]="aiResponse">
+                    </div>
+
+                </div>
+
+            </div>
+
+            }
+
+            <div class="chat-input-area">
+
+                <input #questionInput type="text" placeholder="Ask your AI career guide anything..."
+                    [disabled]="isAiLoading" (keyup.enter)="
+                        askAi(questionInput.value);
+                        questionInput.value = ''
+                    " />
+
+                <button type="button" class="send-button" [disabled]="isAiLoading" (click)="
+                        askAi(questionInput.value);
+                        questionInput.value = ''
+                    ">
+                    →
+                </button>
+
+            </div>
+
+        </section>
+
+        <section class="section">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    SKILL DEVELOPMENT
+                </span>
+
+                <h2>
+                    Areas you could work on
+                </h2>
+
+                <p>
+                    These are the skills currently identified as gaps
+                    for {{ career.title }}.
+                </p>
+
+            </div>
+
+
+            @if (getMissingSkills().length > 0) {
+
+            <div class="development-list">
+
+                @for (
+                skill of getMissingSkills();
+                track skill
+                ) {
+
+                <div class="development-item">
+
+                    <div class="development-number">
+                        {{ $index + 1 }}
+                    </div>
+
+                    <div class="development-content">
+
+                        <strong>
+                            {{ skill }}
+                        </strong>
+
+                        <p>
+                            Explore beginner-level learning resources,
+                            practical exercises and small projects to
+                            gradually develop this skill.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                }
+
+            </div>
+
+            }
+
+            @else {
+
+            <div class="success-message">
+
+                <span>✓</span>
+
+                <p>
+                    Your current profile covers the skills identified
+                    for this career. You can focus on deeper practice
+                    and real-world experience.
+                </p>
+
+            </div>
+
+            }
+
+        </section>
+
+        <section class="pathway-card">
+
+            <div class="pathway-content">
+
+                <span class="section-label">
+                    NEXT EXPLORATION
+                </span>
+
+                <h2>
+                    Your career path can have more than one route.
+                </h2>
+
+                <p>
+                    Education and career journeys are not always linear.
+                    Explore the possible pathways associated with
+                    {{ career.title }} and see which options fit your
+                    current stage.
+                </p>
+
+                <button type="button" class="pathway-button" (click)="goToCareerPathway()">
+
+                    <span>
+                        Explore career pathways
+                    </span>
+
+                </button>
+
+            </div>
+
+            <div class="pathway-visual">
+
+                <div class="path-node active">
+                    <span>1</span>
+                    <small>Now</small>
+                </div>
+
+                <div class="path-line"></div>
+
+                <div class="path-node">
+                    <span>2</span>
+                    <small>Learn</small>
+                </div>
+
+                <div class="path-line"></div>
+
+                <div class="path-node">
+                    <span>3</span>
+                    <small>Explore</small>
+                </div>
+
+            </div>
+
+        </section>
+
+        }
+
+    </div>
+
+</section>

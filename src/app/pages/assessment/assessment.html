@@ -1,0 +1,271 @@
+<section class="assessment-page">
+
+    <div class="assessment-container">
+
+        <main
+            *ngIf="isLoading && questions.length === 0 && !errorMessage"
+            class="assessment-card assessment-loading">
+
+            <div class="loading-spinner"></div>
+
+            <span class="eyebrow">
+                CAREER ASSESSMENT
+            </span>
+
+            <h1>
+                Loading your
+                <span>assessment.</span>
+            </h1>
+
+            <p>
+                We're loading the latest assessment questions.
+            </p>
+
+        </main>
+
+        <main
+            *ngIf="errorMessage"
+            class="assessment-card assessment-error">
+
+            <div class="error-icon">
+                !
+            </div>
+
+            <span class="eyebrow">
+                ASSESSMENT UNAVAILABLE
+            </span>
+
+            <h1>
+                We couldn't load the
+                <span>questions.</span>
+            </h1>
+
+            <p>
+                {{ errorMessage }}
+            </p>
+
+            <button
+                type="button"
+                class="primary-button"
+                (click)="ngOnInit()">
+
+                Try Again
+
+            </button>
+
+        </main>
+
+
+        <div
+            *ngIf="questions.length > 0 && !isCompleted && !errorMessage">
+
+            <header class="assessment-header">
+
+                <span class="eyebrow">
+                    CAREER ASSESSMENT
+                </span>
+
+                <h1>
+                    Understand what
+                    <span>fits you.</span>
+                </h1>
+
+                <p>
+                    Answer a few questions about your interests,
+                    strengths, preferences and goals. Your responses
+                    will help us understand your career direction.
+                </p>
+
+            </header>
+
+
+            <main class="assessment-card">
+
+                <app-assessment-question
+                    *ngIf="currentQuestion"
+                    [questionNumber]="currentQuestionIndex + 1"
+                    [totalQuestions]="totalQuestions"
+                    [question]="currentQuestion!.question"
+                    [description]="currentQuestion!.description"
+                    [options]="currentQuestion!.options"
+                    [selectedValue]="selectedAnswer"
+                    [disabled]="isSaving"
+                    (answerSelected)="selectAnswer($event)">
+                </app-assessment-question>
+
+                <div class="assessment-navigation">
+
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        [disabled]="isFirstQuestion || isSaving"
+                        (click)="previousQuestion()">
+
+                        Previous
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="primary-button"
+                        [disabled]="!selectedAnswer || isSaving"
+                        (click)="nextQuestion()">
+
+                        <span *ngIf="isSaving">
+                            Saving
+                        </span>
+
+                        <span *ngIf="!isSaving && !isLastQuestion">
+                            Next Question
+                        </span>
+
+                        <span *ngIf="!isSaving && isLastQuestion">
+                            Finish Assessment
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </main>
+
+
+            <p class="assessment-note">
+                There are no right or wrong answers.
+                Choose the option that feels most like you.
+            </p>
+
+        </div>
+
+        <main
+            *ngIf="isCompleted"
+            class="completion-card">
+
+            <div class="completion-icon">
+                ✓
+            </div>
+
+            <span class="eyebrow">
+                ASSESSMENT COMPLETE
+            </span>
+
+            <h1>
+                Your responses
+                <span>are recorded.</span>
+            </h1>
+
+            <p>
+                You've completed the first version of the
+                career assessment. These responses will form
+                the foundation for personalized career
+                exploration.
+            </p>
+
+
+            <div class="completion-summary">
+
+                <div class="summary-item">
+
+                    <strong>
+                        {{ totalQuestions }}
+                    </strong>
+
+                    <span>
+                        Questions answered
+                    </span>
+
+                </div>
+
+
+                <div class="summary-item">
+
+                    <strong>
+                        {{ answeredCount }}
+                    </strong>
+
+                    <span>
+                        Responses recorded
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="completion-actions">
+
+                <button
+                    type="button"
+                    class="primary-button"
+                    (click)="goToCareerExplorer()">
+
+                    Explore Careers
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    (click)="goToDashboard()">
+
+                    Go to Dashboard
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="text-button"
+                    (click)="restartAssessment()">
+
+                    Retake Assessment
+
+                </button>
+
+            </div>
+
+        </main>
+
+
+        <main
+            *ngIf="
+                !isLoading &&
+                questions.length === 0 &&
+                !errorMessage &&
+                !isCompleted
+            "
+            class="assessment-card assessment-error">
+
+            <div class="error-icon">
+                !
+            </div>
+
+            <span class="eyebrow">
+                NO QUESTIONS FOUND
+            </span>
+
+            <h1>
+                Your assessment is
+                <span>not ready yet.</span>
+            </h1>
+
+            <p>
+                No assessment questions are currently available.
+            </p>
+
+            <button
+                type="button"
+                class="primary-button"
+                (click)="ngOnInit()">
+
+                Try Again
+
+            </button>
+
+        </main>
+
+    </div>
+
+</section>
