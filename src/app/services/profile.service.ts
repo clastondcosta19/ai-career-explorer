@@ -33,15 +33,14 @@ interface BackendAssessmentResponse {
 export class ProfileService {
 
   private readonly apiUrl =
-    'http://localhost:8080/api/profile';
+    'https://ai-career-explorer-backend-production.up.railway.app/api/profile';
 
   private readonly assessmentApiUrl =
-    'http://localhost:8080/api/assessment';
+    'https://ai-career-explorer-backend-production.up.railway.app/api/assessment';
 
   constructor(
     private http: HttpClient
   ) {}
-
 
   private getAuthHeaders(): HttpHeaders {
 
@@ -52,7 +51,6 @@ export class ProfileService {
       Authorization: `Bearer ${token}`
     });
   }
-
 
   saveProfile(
     userId: number,
@@ -68,7 +66,6 @@ export class ProfileService {
     );
   }
 
-
   getProfile(
     userId: number
   ): Observable<any> {
@@ -80,7 +77,6 @@ export class ProfileService {
       }
     );
   }
-
 
   addStudentSkill(
     userId: number,
@@ -96,7 +92,6 @@ export class ProfileService {
     );
   }
 
-
   removeStudentSkill(
     userId: number,
     skillId: number
@@ -109,7 +104,6 @@ export class ProfileService {
       }
     );
   }
-
 
   saveAssessmentResponse(
     userId: number,
@@ -127,7 +121,6 @@ export class ProfileService {
       }
     );
   }
-
 
   getAssessmentResponses(
     userId: number

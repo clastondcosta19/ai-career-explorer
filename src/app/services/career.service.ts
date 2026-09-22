@@ -45,7 +45,7 @@ export interface Skill {
 export class CareerService {
 
     private readonly apiUrl =
-        'http://localhost:8080/api/careers';
+        'https://ai-career-explorer-backend-production.up.railway.app/api/careers';
 
     constructor(
         private http: HttpClient
@@ -103,7 +103,6 @@ export class CareerService {
             `${this.apiUrl}/role/${encodeURIComponent(role)}`
         );
     }
-
 
     getCareersByDomainAndFamily(
         domain: string,

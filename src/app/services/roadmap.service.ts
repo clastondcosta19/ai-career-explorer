@@ -12,7 +12,7 @@ import {
 export class RoadmapService {
 
   private readonly apiUrl =
-    'http://localhost:8080/api/roadmaps';
+    'https://ai-career-explorer-backend-production.up.railway.app/api/roadmaps';
 
   constructor(
     private http: HttpClient
@@ -68,18 +68,18 @@ export class RoadmapService {
   }
 
   updateStepStatus(
-  userId: number,
-  careerId: number,
-  stepNumber: number,
-  status: string
-): Observable<StudentRoadmap> {
+    userId: number,
+    careerId: number,
+    stepNumber: number,
+    status: string
+  ): Observable<StudentRoadmap> {
 
-  return this.http.patch<StudentRoadmap>(
-    `${this.apiUrl}/${userId}/career/${careerId}/step/${stepNumber}?status=${status}`,
-    {},
-    {
-      headers: this.getAuthHeaders()
-    }
-  );
-}
+    return this.http.patch<StudentRoadmap>(
+      `${this.apiUrl}/${userId}/career/${careerId}/step/${stepNumber}?status=${status}`,
+      {},
+      {
+        headers: this.getAuthHeaders()
+      }
+    );
+  }
 }

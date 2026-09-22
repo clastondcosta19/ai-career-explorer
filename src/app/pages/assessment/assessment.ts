@@ -69,7 +69,7 @@ export class Assessment implements OnInit {
     currentCareerFamily = '';
 
     private readonly assessmentApiUrl =
-        'http://localhost:8080/api/assessment';
+        'https://ai-career-explorer-backend-production.up.railway.app/api/assessment';
 
     constructor(
         private router: Router,
@@ -136,7 +136,6 @@ export class Assessment implements OnInit {
 
                             next: (responses) => {
 
-
                                 const restoredAnswers:
                                     Record<number, string> = {};
 
@@ -198,7 +197,6 @@ export class Assessment implements OnInit {
                 },
 
                 error: (error) => {
-
 
                     this.ngZone.run(() => {
 

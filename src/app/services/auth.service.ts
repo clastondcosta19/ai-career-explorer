@@ -31,7 +31,7 @@ export interface AuthResponse {
 export class AuthService {
 
     private readonly apiUrl =
-        'http://localhost:8080/api/auth';
+        'https://ai-career-explorer-backend-production.up.railway.app/api/auth';
 
     constructor(
         private http: HttpClient

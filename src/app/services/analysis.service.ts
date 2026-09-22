@@ -14,13 +14,13 @@ import {
 export class AnalysisService {
 
   private readonly apiUrl =
-    'http://localhost:8080/api/analysis';
+    'https://ai-career-explorer-backend-production.up.railway.app/api/analysis';
 
   private readonly careerAnalysisUrl =
-    'http://localhost:8080/api/career-analysis';
+    'https://ai-career-explorer-backend-production.up.railway.app/api/career-analysis';
 
   private readonly aiGuidanceUrl =
-    'http://localhost:8080/api/ai-guidance';
+    'https://ai-career-explorer-backend-production.up.railway.app/api/ai-guidance';
 
   constructor(private http: HttpClient) { }
 
