@@ -359,7 +359,6 @@
 }
 
 .main-navigation a.active::after {
-    content: '';
 
     position: absolute;
 
