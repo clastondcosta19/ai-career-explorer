@@ -34,7 +34,7 @@ export class Layout implements OnInit {
   constructor(
     public authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
 
   ngOnInit(): void {
@@ -174,5 +174,16 @@ export class Layout implements OnInit {
     ]);
 
   }
+
+  mobileMenuOpen = false;
+
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
+
+  closeMobileMenu(): void {
+    this.mobileMenuOpen = false;
+  }
+
 
 }
