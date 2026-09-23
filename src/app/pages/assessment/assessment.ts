@@ -172,7 +172,7 @@ export class Assessment implements OnInit {
                                 });
                             },
 
-                            error: (error) => {
+                            error: () => {
 
                                 this.ngZone.run(() => {
 
@@ -219,8 +219,7 @@ export class Assessment implements OnInit {
                         this.changeDetectorRef
                             .detectChanges();
                     });
-                },
-
+                }
             });
     }
 
@@ -368,6 +367,26 @@ export class Assessment implements OnInit {
                         );
 
                     this.ngZone.run(() => {
+
+                        if (mappedQuestions.length === 0) {
+
+                            console.log(
+                                'NO FAMILY QUESTIONS FOUND. COMPLETING CORE ASSESSMENT.'
+                            );
+
+                            this.questions = [];
+
+                            this.isLoading = false;
+
+                            this.isCompleted = true;
+
+                            this.errorMessage = '';
+
+                            this.changeDetectorRef
+                                .detectChanges();
+
+                            return;
+                        }
 
                         this.questions =
                             mappedQuestions;
@@ -586,7 +605,7 @@ export class Assessment implements OnInit {
             )
             .subscribe({
 
-                next: (response) => {
+                next: () => {
 
                     this.ngZone.run(() => {
 
@@ -686,7 +705,6 @@ export class Assessment implements OnInit {
             top: 0,
             behavior: 'smooth'
         });
-
     }
 
     restartAssessment(): void {
