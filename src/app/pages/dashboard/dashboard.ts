@@ -424,17 +424,29 @@ export class Dashboard implements OnInit {
 
   goToCareerPathway(): void {
 
-
-    if (this.careerId === null) {
+    if (this.careerId !== null) {
+      this.router.navigate([
+        '/career-pathway',
+        this.careerId
+      ]);
 
       return;
     }
 
+    const careerGoal =
+      this.profile?.careerGoals?.trim();
+
+    if (!careerGoal) {
+      return;
+    }
 
     this.router.navigate([
-      '/career-pathway',
-      this.careerId
-    ]);
+      '/career-explorer'
+    ], {
+      queryParams: {
+        search: careerGoal
+      }
+    });
 
   }
 
