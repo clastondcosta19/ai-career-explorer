@@ -57,7 +57,11 @@
 
 
         <div
-            *ngIf="questions.length > 0 && !isCompleted && !errorMessage">
+            *ngIf="
+                questions.length > 0 &&
+                !isCompleted &&
+                !errorMessage
+            ">
 
             <header class="assessment-header">
 
@@ -83,13 +87,21 @@
 
                 <app-assessment-question
                     *ngIf="currentQuestion"
+
                     [questionNumber]="currentQuestionIndex + 1"
+
                     [totalQuestions]="totalQuestions"
+
                     [question]="currentQuestion!.question"
+
                     [description]="currentQuestion!.description"
+
                     [options]="currentQuestion!.options"
+
                     [selectedValue]="selectedAnswer"
+
                     [disabled]="isSaving"
+
                     (answerSelected)="selectAnswer($event)">
                 </app-assessment-question>
 
@@ -98,7 +110,12 @@
                     <button
                         type="button"
                         class="secondary-button"
-                        [disabled]="isFirstQuestion || isSaving"
+
+                        [disabled]="
+                            isFirstQuestion ||
+                            isSaving
+                        "
+
                         (click)="previousQuestion()">
 
                         Previous
@@ -109,19 +126,36 @@
                     <button
                         type="button"
                         class="primary-button"
-                        [disabled]="!selectedAnswer || isSaving"
+
+                        [disabled]="
+                            !selectedAnswer ||
+                            isSaving
+                        "
+
                         (click)="nextQuestion()">
 
                         <span *ngIf="isSaving">
                             Saving
                         </span>
 
-                        <span *ngIf="!isSaving && !isLastQuestion">
+                        <span
+                            *ngIf="
+                                !isSaving &&
+                                !isLastQuestion
+                            ">
+
                             Next Question
+
                         </span>
 
-                        <span *ngIf="!isSaving && isLastQuestion">
+                        <span
+                            *ngIf="
+                                !isSaving &&
+                                isLastQuestion
+                            ">
+
                             Finish Assessment
+
                         </span>
 
                     </button>
@@ -132,8 +166,10 @@
 
 
             <p class="assessment-note">
+
                 There are no right or wrong answers.
                 Choose the option that feels most like you.
+
             </p>
 
         </div>
@@ -146,14 +182,17 @@
                 ✓
             </div>
 
+
             <span class="eyebrow">
                 ASSESSMENT COMPLETE
             </span>
+
 
             <h1>
                 Your responses
                 <span>are recorded.</span>
             </h1>
+
 
             <p>
                 You've completed the first version of the
@@ -162,13 +201,12 @@
                 exploration.
             </p>
 
-
             <div class="completion-summary">
 
                 <div class="summary-item">
 
                     <strong>
-                        {{ totalQuestions }}
+                        {{ answeredCount }}
                     </strong>
 
                     <span>
@@ -176,7 +214,6 @@
                     </span>
 
                 </div>
-
 
                 <div class="summary-item">
 
@@ -190,14 +227,16 @@
 
                 </div>
 
+
             </div>
 
-
             <div class="completion-actions">
+
 
                 <button
                     type="button"
                     class="primary-button"
+
                     (click)="goToCareerExplorer()">
 
                     Explore Careers
@@ -208,6 +247,7 @@
                 <button
                     type="button"
                     class="secondary-button"
+
                     (click)="goToDashboard()">
 
                     Go to Dashboard
@@ -218,16 +258,17 @@
                 <button
                     type="button"
                     class="text-button"
+
                     (click)="restartAssessment()">
 
                     Retake Assessment
 
                 </button>
 
+
             </div>
 
         </main>
-
 
         <main
             *ngIf="
@@ -242,22 +283,27 @@
                 !
             </div>
 
+
             <span class="eyebrow">
                 NO QUESTIONS FOUND
             </span>
+
 
             <h1>
                 Your assessment is
                 <span>not ready yet.</span>
             </h1>
 
+
             <p>
                 No assessment questions are currently available.
             </p>
 
+
             <button
                 type="button"
                 class="primary-button"
+
                 (click)="ngOnInit()">
 
                 Try Again
