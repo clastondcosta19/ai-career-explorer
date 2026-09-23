@@ -2027,10 +2027,6 @@
 }
 
 
-/* =====================================================
-   TABLET / MOBILE
-===================================================== */
-
 @media (max-width: 768px) {
 
   .hero-section {
@@ -2247,5 +2243,46 @@
     animation: none !important;
 
     transition-duration: 0.01ms !important;
+  }
+}
+
+.process-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 18px;
+  color: var(--primary-color, #6366f1);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.process-link:hover {
+  transform: translateX(4px);
+  color: var(--primary-dark, #4f46e5);
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 1200px) {
+  .process-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .process-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .process-grid {
+    grid-template-columns: 1fr;
   }
 }
