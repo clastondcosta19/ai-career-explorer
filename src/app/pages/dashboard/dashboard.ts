@@ -1,3 +1,4 @@
+import { CareerService } from '../../services/career.service';
 import {
   ChangeDetectorRef,
   Component,
@@ -51,6 +52,7 @@ export class Dashboard implements OnInit {
     private authService: AuthService,
     private profileService: ProfileService,
     private roadmapService: RoadmapService,
+    private careerService: CareerService,
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef
   ) { }
@@ -440,13 +442,37 @@ export class Dashboard implements OnInit {
       return;
     }
 
-    this.router.navigate([
-      '/career-explorer'
-    ], {
-      queryParams: {
-        search: careerGoal
-      }
-    });
+    this.careerService
+      .getAllCareers()
+      .subscribe({
+
+        next: (careers) => {
+
+          const career =
+            careers.find(
+              item =>
+                item.title?.trim().toLowerCase() ===
+                careerGoal.toLowerCase()
+            );
+
+          if (!career) {
+            return;
+          }
+
+          this.careerId = career.id;
+
+          this.router.navigate([
+            '/career-pathway',
+            career.id
+          ]);
+
+        },
+
+        error: () => {
+          return;
+        }
+
+      });
 
   }
 
