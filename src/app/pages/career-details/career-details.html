@@ -32,8 +32,13 @@
         {{ errorMessage }}
       </p>
 
-      <button type="button" class="primary-button" (click)="goBack()">
+      <button
+        type="button"
+        class="primary-button"
+        (click)="goBack()">
+
         Back to careers
+
       </button>
 
     </div>
@@ -103,6 +108,10 @@
             Analyze my fit
           </span>
 
+          <span class="button-arrow">
+            →
+          </span>
+
         </button>
 
       </div>
@@ -129,7 +138,7 @@
 
       <div class="personalized-header">
 
-        <div>
+        <div class="personalized-heading">
 
           <span class="small-label">
             YOUR CAREER PATHWAY
@@ -140,8 +149,8 @@
           </h2>
 
           <p>
-            Your pathway is based on your current academic stage
-            and the information available in your profile.
+            Your pathway is personalized using your current academic stage,
+            stream and subjects from your profile.
           </p>
 
         </div>
@@ -162,11 +171,19 @@
 
       <div class="personalized-stage-grid">
 
-        <article class="stage-info-card">
+        <article class="stage-info-card stage-current-card">
 
-          <span class="stage-card-label">
-            WHERE YOU ARE
-          </span>
+          <div class="stage-card-top">
+
+            <div class="stage-card-icon">
+              01
+            </div>
+
+            <span class="stage-card-label">
+              WHERE YOU ARE
+            </span>
+
+          </div>
 
           <h3>
             {{ getCurrentStageTitle() }}
@@ -176,33 +193,41 @@
             {{ getStageSummary() }}
           </p>
 
-          @if (stream) {
+          @if (stream || studentSubjects) {
 
-          <div class="profile-detail">
+          <div class="profile-details">
 
-            <span>
-              Stream
-            </span>
+            @if (stream) {
 
-            <strong>
-              {{ stream }}
-            </strong>
+            <div class="profile-detail">
 
-          </div>
+              <span>
+                Stream
+              </span>
 
-          }
+              <strong>
+                {{ stream }}
+              </strong>
 
-          @if (studentSubjects) {
+            </div>
 
-          <div class="profile-detail">
+            }
 
-            <span>
-              Subjects
-            </span>
+            @if (studentSubjects) {
 
-            <strong>
-              {{ studentSubjects }}
-            </strong>
+            <div class="profile-detail">
+
+              <span>
+                Subjects
+              </span>
+
+              <strong>
+                {{ studentSubjects }}
+              </strong>
+
+            </div>
+
+            }
 
           </div>
 
@@ -210,11 +235,19 @@
 
         </article>
 
-        <article class="stage-info-card">
+        <article class="stage-info-card stage-focus-card">
 
-          <span class="stage-card-label">
-            WHAT TO FOCUS ON
-          </span>
+          <div class="stage-card-top">
+
+            <div class="stage-card-icon">
+              02
+            </div>
+
+            <span class="stage-card-label">
+              WHAT TO FOCUS ON
+            </span>
+
+          </div>
 
           <h3>
             Build the right foundation
@@ -247,9 +280,17 @@
 
         <article class="stage-info-card next-step-card">
 
-          <span class="stage-card-label">
-            YOUR NEXT STEP
-          </span>
+          <div class="stage-card-top">
+
+            <div class="stage-card-icon">
+              03
+            </div>
+
+            <span class="stage-card-label">
+              YOUR NEXT STEP
+            </span>
+
+          </div>
 
           <h3>
             {{ getNextStepTitle() }}
@@ -258,6 +299,10 @@
           <p>
             {{ getNextStepDescription() }}
           </p>
+
+          <div class="next-step-arrow">
+            →
+          </div>
 
         </article>
 
@@ -488,6 +533,18 @@
 
         </div>
 
+        <div class="education-stage-indicator">
+
+          <span>
+            FOR YOUR STAGE
+          </span>
+
+          <strong>
+            {{ getCurrentStageTitle() }}
+          </strong>
+
+        </div>
+
       </div>
 
       <div class="education-profile-note">
@@ -672,8 +729,8 @@
           </h2>
 
           <p>
-            Explore the different stages you may move through
-            on the way to this career.
+            Explore the different routes and stages that can
+            lead toward this career.
           </p>
 
         </div>
@@ -681,7 +738,7 @@
         <div class="pathway-route-label">
 
           <span>
-            YOUR ROUTE
+            YOUR JOURNEY
           </span>
 
           <strong>
@@ -694,13 +751,21 @@
 
       <div class="pathway-overview">
 
-        <span class="small-label">
-          CAREER PATHWAY INFORMATION
-        </span>
+        <div class="pathway-overview-icon">
+          ↗
+        </div>
 
-        <p>
-          {{ getCareerPathway() }}
-        </p>
+        <div>
+
+          <span class="small-label">
+            CAREER PATHWAY INFORMATION
+          </span>
+
+          <p>
+            {{ getCareerPathway() }}
+          </p>
+
+        </div>
 
       </div>
 
@@ -719,7 +784,7 @@
           <div class="stage-top">
 
             <div class="stage-number">
-              {{ i + 1 }}
+              {{ (i + 1).toString().padStart(2, '0') }}
             </div>
 
             @if (!$last) {
@@ -829,6 +894,10 @@
 
         <span>
           Analyze my fit
+        </span>
+
+        <span>
+          →
         </span>
 
       </button>
