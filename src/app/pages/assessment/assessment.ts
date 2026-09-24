@@ -71,6 +71,9 @@ export class Assessment implements OnInit {
     private readonly assessmentApiUrl =
         'https://ai-career-explorer-backend-production.up.railway.app/api/assessment';
 
+    private readonly careerAnalysisApiUrl =
+        'https://ai-career-explorer-backend-production.up.railway.app/api/career-analysis';
+
     constructor(
         private router: Router,
         private http: HttpClient,
@@ -165,6 +168,8 @@ export class Assessment implements OnInit {
 
                                     this.assessmentStage = 'CORE';
 
+                                    this.isCompleted = false;
+
                                     this.isLoading = false;
 
                                     this.changeDetectorRef
@@ -184,6 +189,8 @@ export class Assessment implements OnInit {
                                     this.currentQuestionIndex = 0;
 
                                     this.assessmentStage = 'CORE';
+
+                                    this.isCompleted = false;
 
                                     this.isLoading = false;
 
@@ -371,19 +378,16 @@ export class Assessment implements OnInit {
                         if (mappedQuestions.length === 0) {
 
                             console.log(
-                                'NO FAMILY QUESTIONS FOUND. COMPLETING CORE ASSESSMENT.'
+                                'NO FAMILY QUESTIONS FOUND. GENERATING CAREER ANALYSIS.'
                             );
 
                             this.questions = [];
 
                             this.isLoading = false;
 
-                            this.isCompleted = true;
-
                             this.errorMessage = '';
 
-                            this.changeDetectorRef
-                                .detectChanges();
+                            this.generateCareerAnalysis();
 
                             return;
                         }
@@ -437,6 +441,119 @@ export class Assessment implements OnInit {
 
                             this.errorMessage =
                                 'Unable to load family assessment questions.';
+                        }
+
+                        this.changeDetectorRef
+                            .detectChanges();
+                    });
+                }
+            });
+    }
+
+    private generateCareerAnalysis(): void {
+
+        const token = this.authService.getToken();
+
+        const user = this.authService.getUser();
+
+        if (!token || !user) {
+
+            this.isLoading = false;
+
+            this.isSaving = false;
+
+            this.errorMessage =
+                'Your session has expired. Please log in again.';
+
+            this.changeDetectorRef.detectChanges();
+
+            return;
+        }
+
+        this.isLoading = true;
+
+        this.isSaving = true;
+
+        this.errorMessage = '';
+
+        const headers = new HttpHeaders({
+            Authorization: `Bearer ${token}`
+        });
+
+        this.http
+            .post(
+                `${this.careerAnalysisApiUrl}/${user.id}/all`,
+                {},
+                { headers }
+            )
+            .subscribe({
+
+                next: (analyses) => {
+
+                    console.log(
+                        'CAREER ANALYSIS GENERATED:',
+                        analyses
+                    );
+
+                    this.ngZone.run(() => {
+
+                        this.isLoading = false;
+
+                        this.isSaving = false;
+
+                        this.isCompleted = true;
+
+                        this.errorMessage = '';
+
+                        this.changeDetectorRef
+                            .detectChanges();
+
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    });
+                },
+
+                error: (error) => {
+
+                    console.error(
+                        'CAREER ANALYSIS GENERATION ERROR:',
+                        error
+                    );
+
+                    this.ngZone.run(() => {
+
+                        this.isLoading = false;
+
+                        this.isSaving = false;
+
+                        if (
+                            error?.status === 401 ||
+                            error?.status === 403
+                        ) {
+
+                            this.errorMessage =
+                                'Your session has expired. Please log in again.';
+
+                        } else if (
+                            error?.status === 404
+                        ) {
+
+                            this.errorMessage =
+                                'Career analysis service could not find the required profile or career data.';
+
+                        } else if (
+                            error?.status === 500
+                        ) {
+
+                            this.errorMessage =
+                                'We could not generate your career analysis. Please try again.';
+
+                        } else {
+
+                            this.errorMessage =
+                                'Unable to generate your career analysis. Please try again.';
                         }
 
                         this.changeDetectorRef
@@ -626,10 +743,7 @@ export class Assessment implements OnInit {
                                 return;
                             }
 
-                            this.isCompleted = true;
-
-                            this.changeDetectorRef
-                                .detectChanges();
+                            this.generateCareerAnalysis();
 
                             return;
                         }
@@ -695,16 +809,11 @@ export class Assessment implements OnInit {
 
     finishAssessment(): void {
 
-        this.isSaving = false;
+        if (this.isSaving) {
+            return;
+        }
 
-        this.isCompleted = true;
-
-        this.changeDetectorRef.detectChanges();
-
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        this.generateCareerAnalysis();
     }
 
     restartAssessment(): void {
