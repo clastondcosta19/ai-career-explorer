@@ -50,15 +50,16 @@
           {{ getInitial() }}
         </div>
 
-
         <div class="hero-info">
 
           <div class="breadcrumb">
 
             @if (career.domain) {
+
             <span>
               {{ career.domain }}
             </span>
+
             }
 
             @if (career.careerFamily) {
@@ -75,11 +76,9 @@
 
           </div>
 
-
           <h1>
             {{ career.title }}
           </h1>
-
 
           @if (career.role) {
 
@@ -93,11 +92,17 @@
 
       </div>
 
-
       <div class="hero-right">
 
-        <button type="button" class="hero-button" (click)="analyzeCareer()">
-          <span>Analyze my fit</span>
+        <button
+          type="button"
+          class="hero-button"
+          (click)="analyzeCareer()">
+
+          <span>
+            Analyze my fit
+          </span>
+
         </button>
 
       </div>
@@ -119,6 +124,146 @@
     </section>
 
     }
+
+    <section class="career-pathway-personalized">
+
+      <div class="personalized-header">
+
+        <div>
+
+          <span class="small-label">
+            YOUR CAREER PATHWAY
+          </span>
+
+          <h2>
+            What this career means for you
+          </h2>
+
+          <p>
+            Your pathway is based on your current academic stage
+            and the information available in your profile.
+          </p>
+
+        </div>
+
+        <div class="current-stage-badge">
+
+          <span>
+            CURRENT STAGE
+          </span>
+
+          <strong>
+            {{ getCurrentStageTitle() }}
+          </strong>
+
+        </div>
+
+      </div>
+
+      <div class="personalized-stage-grid">
+
+        <article class="stage-info-card">
+
+          <span class="stage-card-label">
+            WHERE YOU ARE
+          </span>
+
+          <h3>
+            {{ getCurrentStageTitle() }}
+          </h3>
+
+          <p>
+            {{ getStageSummary() }}
+          </p>
+
+          @if (stream) {
+
+          <div class="profile-detail">
+
+            <span>
+              Stream
+            </span>
+
+            <strong>
+              {{ stream }}
+            </strong>
+
+          </div>
+
+          }
+
+          @if (studentSubjects) {
+
+          <div class="profile-detail">
+
+            <span>
+              Subjects
+            </span>
+
+            <strong>
+              {{ studentSubjects }}
+            </strong>
+
+          </div>
+
+          }
+
+        </article>
+
+        <article class="stage-info-card">
+
+          <span class="stage-card-label">
+            WHAT TO FOCUS ON
+          </span>
+
+          <h3>
+            Build the right foundation
+          </h3>
+
+          <ul class="focus-list">
+
+            @for (
+            focus of getFocusAreas();
+            track focus
+            ) {
+
+            <li>
+
+              <span class="focus-check">
+                ✓
+              </span>
+
+              <span>
+                {{ focus }}
+              </span>
+
+            </li>
+
+            }
+
+          </ul>
+
+        </article>
+
+        <article class="stage-info-card next-step-card">
+
+          <span class="stage-card-label">
+            YOUR NEXT STEP
+          </span>
+
+          <h3>
+            {{ getNextStepTitle() }}
+          </h3>
+
+          <p>
+            {{ getNextStepDescription() }}
+          </p>
+
+        </article>
+
+      </div>
+
+    </section>
 
     <div class="main-layout">
 
@@ -147,7 +292,6 @@
             </div>
 
           </div>
-
 
           <div class="skills-list">
 
@@ -201,7 +345,6 @@
 
           </div>
 
-
           <div class="pill-list">
 
             @for (
@@ -244,7 +387,6 @@
             </div>
 
           </div>
-
 
           <div class="pill-list">
 
@@ -301,7 +443,6 @@
             Useful subjects
           </h3>
 
-
           <div class="subject-list">
 
             @for (
@@ -325,7 +466,7 @@
 
     </div>
 
-    @if (getEducationPrograms().length > 0) {
+    @if (shouldShowEducationPrograms() && getEducationPrograms().length > 0) {
 
     <section class="education-pathways-section">
 
@@ -338,21 +479,16 @@
           </span>
 
           <h2>
-            Ways to prepare for this career
+            {{ getEducationSectionTitle() }}
           </h2>
 
           <p>
-            Explore education programs that can lead toward
-            this career. Your starting point may depend on
-            your current education level.
+            {{ getEducationSectionDescription() }}
           </p>
 
         </div>
 
       </div>
-
-
-      @if (educationLevel === 'higher_secondary' || currentClass === 'class_12') {
 
       <div class="education-profile-note">
 
@@ -361,24 +497,48 @@
         </div>
 
         <div>
+
           <strong>
-            Based on your profile
+            Personalized for your stage
           </strong>
 
           <p>
+
+            @if (currentClass === 'class_10') {
+
+            You're currently in Class 10
+            @if (stream) {
+            and your stream is {{ stream }}
+            }
+            . Options available after Class 10 are shown first.
+
+            }
+
+            @else if (currentClass === 'class_11') {
+
+            You're currently in Class 11
+            @if (stream) {
+            in {{ stream }}
+            }
+            . These options can help you plan your education after Class 12.
+
+            }
+
+            @else if (currentClass === 'class_12') {
+
             You're currently in Class 12
             @if (stream) {
-            {{ stream }}
+            in {{ stream }}
             }
-            , so undergraduate programs available
-            after 12th are shown first.
+            . Undergraduate options available after Class 12 are shown first.
+
+            }
+
           </p>
+
         </div>
 
       </div>
-
-      }
-
 
       <div class="education-program-grid">
 
@@ -401,25 +561,27 @@
 
           </div>
 
-
           <h3>
             {{ program.name }}
           </h3>
 
-          @if (educationLevel && getPreferredEntryLevel()) {
+          @if (getPreferredEntryLevel()) {
 
-          <span class="education-program-match"
+          <span
+            class="education-program-match"
             [class.strong-match]="getProgramMatchLabel(program) === 'Strong pathway match'"
             [class.good-match]="getProgramMatchLabel(program) === 'Good pathway match'"
             [class.alternative-match]="getProgramMatchLabel(program) === 'Alternative pathway'">
+
             {{ getProgramMatchLabel(program) }}
+
           </span>
 
           @if (getProgramMatchLabel(program) === 'Strong pathway match') {
 
           <p class="education-match-reason">
-            This pathway aligns closely with your current education level,
-            stream and subjects.
+            This pathway aligns closely with your current
+            education level, stream and subjects.
           </p>
 
           }
@@ -427,13 +589,13 @@
           @else if (getProgramMatchLabel(program) === 'Good pathway match') {
 
           <p class="education-match-reason">
-            This pathway aligns with several parts of your current academic profile.
+            This pathway aligns with several parts of your
+            current academic profile.
           </p>
 
           }
 
           }
-
 
           @if (program.field) {
 
@@ -443,7 +605,6 @@
 
           }
 
-
           @if (program.description) {
 
           <p class="education-program-description">
@@ -451,7 +612,6 @@
           </p>
 
           }
-
 
           @if (program.subjects) {
 
@@ -468,7 +628,6 @@
           </div>
 
           }
-
 
           @if (program.eligibility) {
 
@@ -496,7 +655,7 @@
 
     }
 
-    @if (career.careerPaths) {
+    @if (hasCareerPathway()) {
 
     <section class="pathway-section">
 
@@ -519,7 +678,6 @@
 
         </div>
 
-
         <div class="pathway-route-label">
 
           <span>
@@ -531,6 +689,18 @@
           </strong>
 
         </div>
+
+      </div>
+
+      <div class="pathway-overview">
+
+        <span class="small-label">
+          CAREER PATHWAY INFORMATION
+        </span>
+
+        <p>
+          {{ getCareerPathway() }}
+        </p>
 
       </div>
 
@@ -552,7 +722,6 @@
               {{ i + 1 }}
             </div>
 
-
             @if (!$last) {
 
             <div class="stage-connector"></div>
@@ -567,11 +736,9 @@
               STEP {{ (i + 1).toString().padStart(2, '0') }}
             </span>
 
-
             <h3>
               {{ path.trim() }}
             </h3>
-
 
             @if (i === 0) {
 
@@ -609,7 +776,6 @@
         }
 
       </div>
-
 
       <div class="pathway-note">
 
@@ -656,8 +822,10 @@
 
       </div>
 
-
-      <button type="button" class="cta-button" (click)="analyzeCareer()">
+      <button
+        type="button"
+        class="cta-button"
+        (click)="analyzeCareer()">
 
         <span>
           Analyze my fit
