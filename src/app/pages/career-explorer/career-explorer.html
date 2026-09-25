@@ -42,7 +42,7 @@
             <div class="search-wrapper">
 
                 <span class="search-icon" aria-hidden="true">
-                    <i class="bi bi-search"></i>
+                    ⌕
                 </span>
 
                 <input
@@ -61,7 +61,7 @@
                         aria-label="Clear search"
                         (click)="searchTerm = ''; onSearchChange()"
                     >
-                        <i class="bi bi-x-lg"></i>
+                        ×
                     </button>
 
                 }
@@ -140,8 +140,7 @@
                     class="clear-filters"
                     (click)="clearFilters()"
                 >
-                    <i class="bi bi-arrow-counterclockwise"></i>
-                    <span>Clear filters</span>
+                    Clear filters
                 </button>
 
             </div>
@@ -170,7 +169,6 @@
             ) {
 
                 <span class="filtered-indicator">
-                    <i class="bi bi-funnel-fill"></i>
                     Filters applied
                 </span>
 
@@ -182,9 +180,7 @@
 
             <div class="state-card">
 
-                <div class="loading-orb">
-                    <i class="bi bi-stars"></i>
-                </div>
+                <div class="loading-orb"></div>
 
                 <h2>
                     Discovering career options...
@@ -203,7 +199,7 @@
             <div class="state-card error-state">
 
                 <div class="state-icon">
-                    <i class="bi bi-exclamation-lg"></i>
+                    !
                 </div>
 
                 <h2>
@@ -219,8 +215,7 @@
                     class="retry-button"
                     (click)="loadCareers()"
                 >
-                    <i class="bi bi-arrow-clockwise"></i>
-                    <span>Try again</span>
+                    Try again
                 </button>
 
             </div>
@@ -232,7 +227,7 @@
             <div class="state-card empty-state">
 
                 <div class="state-icon">
-                    <i class="bi bi-search"></i>
+                    ⌕
                 </div>
 
                 <h2>
@@ -249,8 +244,7 @@
                     class="retry-button"
                     (click)="clearFilters()"
                 >
-                    <i class="bi bi-grid"></i>
-                    <span>View all careers</span>
+                    View all careers
                 </button>
 
             </div>
@@ -322,7 +316,6 @@
                                 <div class="info-item">
 
                                     <span class="info-label">
-                                        <i class="bi bi-briefcase"></i>
                                         Role
                                     </span>
 
@@ -340,7 +333,6 @@
                                 <div class="info-item">
 
                                     <span class="info-label">
-                                        <i class="bi bi-mortarboard"></i>
                                         Education
                                     </span>
 
@@ -362,7 +354,6 @@
                             <div class="career-skills">
 
                                 <div class="skills-heading">
-                                    <i class="bi bi-stars"></i>
                                     Key skills
                                 </div>
 
@@ -410,7 +401,7 @@
                                     class="button-arrow"
                                     aria-hidden="true"
                                 >
-                                    <i class="bi bi-arrow-right"></i>
+                                    →
                                 </span>
 
                             </button>
