@@ -6,7 +6,9 @@
 
     <div class="loading-state">
 
-      <div class="spinner"></div>
+      <div class="spinner">
+        <i class="bi bi-stars"></i>
+      </div>
 
       <h2>Loading career</h2>
 
@@ -23,7 +25,7 @@
     <div class="error-state">
 
       <div class="error-icon">
-        !
+        <i class="bi bi-exclamation-triangle"></i>
       </div>
 
       <h2>Career unavailable</h2>
@@ -37,7 +39,11 @@
         class="primary-button"
         (click)="goBack()">
 
-        Back to careers
+        <i class="bi bi-arrow-left"></i>
+
+        <span>
+          Back to careers
+        </span>
 
       </button>
 
@@ -61,7 +67,8 @@
 
             @if (career.domain) {
 
-            <span>
+            <span class="breadcrumb-item">
+              <i class="bi bi-grid-1x2"></i>
               {{ career.domain }}
             </span>
 
@@ -70,10 +77,11 @@
             @if (career.careerFamily) {
 
             <span class="breadcrumb-separator">
-              /
+              <i class="bi bi-chevron-right"></i>
             </span>
 
-            <span>
+            <span class="breadcrumb-item">
+              <i class="bi bi-briefcase"></i>
               {{ career.careerFamily }}
             </span>
 
@@ -88,6 +96,7 @@
           @if (career.role) {
 
           <p class="hero-role">
+            <i class="bi bi-person-badge"></i>
             {{ career.role }}
           </p>
 
@@ -104,12 +113,16 @@
           class="hero-button"
           (click)="analyzeCareer()">
 
+          <span class="hero-button-icon">
+            <i class="bi bi-bar-chart-line"></i>
+          </span>
+
           <span>
             Analyze my fit
           </span>
 
           <span class="button-arrow">
-            →
+            <i class="bi bi-arrow-right"></i>
           </span>
 
         </button>
@@ -122,9 +135,17 @@
 
     <section class="intro">
 
-      <span class="intro-label">
-        ABOUT THIS CAREER
-      </span>
+      <div class="intro-heading">
+
+        <span class="intro-icon">
+          <i class="bi bi-info-circle"></i>
+        </span>
+
+        <span class="intro-label">
+          ABOUT THIS CAREER
+        </span>
+
+      </div>
 
       <p>
         {{ career.description }}
@@ -141,6 +162,7 @@
         <div class="personalized-heading">
 
           <span class="small-label">
+            <i class="bi bi-signpost-2"></i>
             YOUR CAREER PATHWAY
           </span>
 
@@ -158,6 +180,7 @@
         <div class="current-stage-badge">
 
           <span>
+            <i class="bi bi-person-check"></i>
             CURRENT STAGE
           </span>
 
@@ -180,6 +203,7 @@
             </div>
 
             <span class="stage-card-label">
+              <i class="bi bi-geo-alt"></i>
               WHERE YOU ARE
             </span>
 
@@ -202,6 +226,7 @@
             <div class="profile-detail">
 
               <span>
+                <i class="bi bi-diagram-3"></i>
                 Stream
               </span>
 
@@ -218,6 +243,7 @@
             <div class="profile-detail">
 
               <span>
+                <i class="bi bi-book"></i>
                 Subjects
               </span>
 
@@ -244,6 +270,7 @@
             </div>
 
             <span class="stage-card-label">
+              <i class="bi bi-bullseye"></i>
               WHAT TO FOCUS ON
             </span>
 
@@ -263,7 +290,7 @@
             <li>
 
               <span class="focus-check">
-                ✓
+                <i class="bi bi-check2"></i>
               </span>
 
               <span>
@@ -287,6 +314,7 @@
             </div>
 
             <span class="stage-card-label">
+              <i class="bi bi-arrow-up-right"></i>
               YOUR NEXT STEP
             </span>
 
@@ -301,7 +329,7 @@
           </p>
 
           <div class="next-step-arrow">
-            →
+            <i class="bi bi-arrow-right"></i>
           </div>
 
         </article>
@@ -327,6 +355,7 @@
             <div>
 
               <span class="small-label">
+                <i class="bi bi-tools"></i>
                 CORE REQUIREMENTS
               </span>
 
@@ -379,6 +408,7 @@
             <div>
 
               <span class="small-label">
+                <i class="bi bi-heart"></i>
                 PERSONAL FIT
               </span>
 
@@ -398,6 +428,7 @@
             ) {
 
             <span class="pill">
+              <i class="bi bi-check-circle"></i>
               {{ interest }}
             </span>
 
@@ -422,6 +453,7 @@
             <div>
 
               <span class="small-label">
+                <i class="bi bi-lightning-charge"></i>
                 NATURAL ADVANTAGES
               </span>
 
@@ -441,6 +473,7 @@
             ) {
 
             <span class="pill">
+              <i class="bi bi-check-circle"></i>
               {{ strength }}
             </span>
 
@@ -461,6 +494,7 @@
         <section class="side-section">
 
           <span class="small-label">
+            <i class="bi bi-mortarboard"></i>
             EDUCATION
           </span>
 
@@ -481,6 +515,7 @@
         <section class="side-section">
 
           <span class="small-label">
+            <i class="bi bi-journal-bookmark"></i>
             SUBJECTS
           </span>
 
@@ -496,6 +531,7 @@
             ) {
 
             <span>
+              <i class="bi bi-bookmark"></i>
               {{ subject }}
             </span>
 
@@ -520,6 +556,7 @@
         <div>
 
           <span class="small-label">
+            <i class="bi bi-mortarboard"></i>
             EDUCATION OPTIONS
           </span>
 
@@ -536,6 +573,7 @@
         <div class="education-stage-indicator">
 
           <span>
+            <i class="bi bi-person-check"></i>
             FOR YOUR STAGE
           </span>
 
@@ -550,7 +588,7 @@
       <div class="education-profile-note">
 
         <div class="education-profile-note-icon">
-          ✓
+          <i class="bi bi-check-lg"></i>
         </div>
 
         <div>
@@ -609,10 +647,12 @@
           <div class="education-program-top">
 
             <span class="education-program-level">
+              <i class="bi bi-award"></i>
               {{ program.entryLevel }}
             </span>
 
             <span class="education-program-duration">
+              <i class="bi bi-clock"></i>
               {{ program.typicalDuration }}
             </span>
 
@@ -629,6 +669,24 @@
             [class.strong-match]="getProgramMatchLabel(program) === 'Strong pathway match'"
             [class.good-match]="getProgramMatchLabel(program) === 'Good pathway match'"
             [class.alternative-match]="getProgramMatchLabel(program) === 'Alternative pathway'">
+
+            @if (getProgramMatchLabel(program) === 'Strong pathway match') {
+
+            <i class="bi bi-stars"></i>
+
+            }
+
+            @else if (getProgramMatchLabel(program) === 'Good pathway match') {
+
+            <i class="bi bi-check-circle"></i>
+
+            }
+
+            @else {
+
+            <i class="bi bi-arrow-right-circle"></i>
+
+            }
 
             {{ getProgramMatchLabel(program) }}
 
@@ -657,6 +715,7 @@
           @if (program.field) {
 
           <p class="education-program-field">
+            <i class="bi bi-diagram-3"></i>
             {{ program.field }}
           </p>
 
@@ -675,6 +734,7 @@
           <div class="education-program-subjects">
 
             <span class="education-detail-label">
+              <i class="bi bi-book"></i>
               Relevant subjects
             </span>
 
@@ -691,6 +751,7 @@
           <div class="education-program-eligibility">
 
             <span class="education-detail-label">
+              <i class="bi bi-shield-check"></i>
               Eligibility
             </span>
 
@@ -721,6 +782,7 @@
         <div class="pathway-heading">
 
           <span class="small-label">
+            <i class="bi bi-signpost-split"></i>
             CAREER JOURNEY
           </span>
 
@@ -738,6 +800,7 @@
         <div class="pathway-route-label">
 
           <span>
+            <i class="bi bi-compass"></i>
             YOUR JOURNEY
           </span>
 
@@ -752,7 +815,7 @@
       <div class="pathway-overview">
 
         <div class="pathway-overview-icon">
-          ↗
+          <i class="bi bi-arrow-up-right"></i>
         </div>
 
         <div>
@@ -798,6 +861,7 @@
           <div class="stage-body">
 
             <span class="stage-label">
+              <i class="bi bi-arrow-right-short"></i>
               STEP {{ (i + 1).toString().padStart(2, '0') }}
             </span>
 
@@ -845,7 +909,7 @@
       <div class="pathway-note">
 
         <div class="note-icon">
-          ↗
+          <i class="bi bi-lightbulb"></i>
         </div>
 
         <div>
@@ -872,6 +936,7 @@
       <div class="final-cta-content">
 
         <span class="small-label">
+          <i class="bi bi-stars"></i>
           NEXT STEP
         </span>
 
@@ -892,12 +957,16 @@
         class="cta-button"
         (click)="analyzeCareer()">
 
+        <span class="cta-button-icon">
+          <i class="bi bi-bar-chart-line"></i>
+        </span>
+
         <span>
           Analyze my fit
         </span>
 
-        <span>
-          →
+        <span class="cta-button-arrow">
+          <i class="bi bi-arrow-right"></i>
         </span>
 
       </button>
